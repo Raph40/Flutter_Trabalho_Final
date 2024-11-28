@@ -18,7 +18,7 @@ class PartilharPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,  // Centraliza os botões
+          crossAxisAlignment: CrossAxisAlignment.center, // Centraliza os botões
           children: [
             Center(
               child: Image.network(
@@ -43,7 +43,7 @@ class PartilharPage extends StatelessWidget {
 
             // Botões centralizados com linha de separação
             _buildShareOption(MdiIcons.messageTextOutline, 'Mensagem'),
-            Divider(color: Colors.grey[300], height: 20),  // Linha de separação
+            Divider(color: Colors.grey[300], height: 20), // Linha de separação
             _buildShareOption(MdiIcons.whatsapp, 'Whatsapp'),
             Divider(color: Colors.grey[300], height: 20),
             _buildShareOption(MdiIcons.emailOutline, 'Email'),
@@ -66,14 +66,20 @@ class PartilharPage extends StatelessWidget {
         onPressed: () {
           // Lógica para cada botão de partilha
         },
-        icon: Icon(icon, color: Colors.grey),  // Cor cinza para o ícone
+        icon: Icon(icon, color: Colors.grey), // Cor cinza para o ícone
         label: Text(
           label,
-          style: TextStyle(color: Colors.grey),  // Cor cinza para o texto
+          style: TextStyle(color: Colors.grey), // Cor cinza para o texto
         ),
-        style: TextButton.styleFrom(
-          padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-          foregroundColor: Colors.black,  // Define a cor do ícone
+        style: ButtonStyle(
+          // Remove a cor de fundo
+          backgroundColor: MaterialStateProperty.all(Colors.transparent),
+          // Remove o efeito de hover
+          overlayColor: MaterialStateProperty.all(Colors.transparent),
+          // Remove o splash
+          splashFactory: NoSplash.splashFactory,
+          // Define a cor do texto no normal
+          foregroundColor: MaterialStateProperty.all(Colors.black),
         ),
       ),
     );

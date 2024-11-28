@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 void main() {
   runApp(MyGymApp());
@@ -14,45 +15,69 @@ class MyGymApp extends StatelessWidget {
   }
 }
 
-class GymScreen extends StatelessWidget {
+class GymScreen extends StatefulWidget {
+  @override
+  _GymScreenState createState() => _GymScreenState();
+}
+
+class _GymScreenState extends State<GymScreen> {
+  int _selectedIndex = 0; // Índice do ícone selecionado
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Bem-vindo, [Nome do Utilizador]!',
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white, // Cor do topo: branco
-        elevation: 1, // Pequena sombra para destacar
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person, color: Colors.black),
-            onPressed: () {
-              // Lógica para alterar foto de perfil
-            },
-          ),
-        ],
-      ),
       body: Column(
         children: [
-          // Header com informações do usuário
+          // Retângulo arredondado envolvendo a AppBar
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Nome do Utilizador',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'Nº de Sócio: 12345',
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
-                ),
-              ],
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 8,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.grey[300],
+                        child: Icon(Icons.person, color: Colors.black),
+                      ),
+                      SizedBox(width: 12),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Utilizador',
+                            style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'Sócio nº ---',
+                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.settings_outlined, color: Colors.black),
+                    onPressed: () {
+                      // Lógica para abrir configurações
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
 
@@ -66,12 +91,12 @@ class GymScreen extends StatelessWidget {
                 mainAxisSpacing: 16.0,
                 childAspectRatio: 2 / 1.5,
                 children: [
-                  _buildGridItem(Icons.fitness_center, 'Plano de Treino'),
-                  _buildGridItem(Icons.quiz, 'Questionários'),
-                  _buildGridItem(Icons.flag, 'Metas'),
-                  _buildGridItem(Icons.calendar_today, 'Reservas'),
-                  _buildGridItem(Icons.add_circle, 'Serviços Extra'),
-                  _buildGridItem(Icons.check_circle, 'Avaliação Física'),
+                  _buildGridItem(MdiIcons.armFlex, 'Plano de Treino'),
+                  _buildGridItem(MdiIcons.commentQuestionOutline, 'Questionários'),
+                  _buildGridItem(MdiIcons.bullseyeArrow, 'Metas'),
+                  _buildGridItem(MdiIcons.bookCheckOutline, 'Reservas'),
+                  _buildGridItem(MdiIcons.run, 'Serviços Extra'),
+                  _buildGridItem(MdiIcons.heart, 'Avaliação Física'),
                 ],
               ),
             ),
@@ -81,38 +106,33 @@ class GymScreen extends StatelessWidget {
 
       // BottomAppBar com ícones
       bottomNavigationBar: BottomAppBar(
-        color: Colors.white, // Cor do rodapé: branco
-        elevation: 10, // Sombra para destacar
+        color: Colors.white,
+        elevation: 10,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            IconButton(
-              icon: const Icon(Icons.home, color: Colors.black),
-              onPressed: () {
-                // Lógica para botão Home
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.calendar_today, color: Colors.black),
-              onPressed: () {
-                // Lógica para botão Calendário
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.notifications, color: Colors.black),
-              onPressed: () {
-                // Lógica para botão Notificações
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.share, color: Colors.black),
-              onPressed: () {
-                // Lógica para botão Partilhar
-              },
-            ),
+            _buildBottomIcon(Icons.home_outlined, 0),
+            _buildBottomIcon(Icons.calendar_today_outlined, 1),
+            _buildBottomIcon(Icons.notifications_outlined, 2),
+            _buildBottomIcon(Icons.share_outlined, 3),
           ],
         ),
       ),
+    );
+  }
+
+  // Função para criar os ícones do BottomAppBar
+  Widget _buildBottomIcon(IconData icon, int index) {
+    return IconButton(
+      icon: Icon(
+        icon,
+        color: _selectedIndex == index ? Colors.black : Colors.grey[300],
+      ),
+      onPressed: () {
+        setState(() {
+          _selectedIndex = index; // Atualiza o índice selecionado
+        });
+      },
     );
   }
 
@@ -124,7 +144,7 @@ class GymScreen extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.red,
+          color: Colors.red[700],
           borderRadius: BorderRadius.circular(16.0),
         ),
         child: Column(

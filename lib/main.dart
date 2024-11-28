@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:trabalho_final/notificacoes.dart';
 import 'partilhar.dart';
 import 'agenda.dart';  // Importando a tela da agenda
 
@@ -30,6 +31,8 @@ class _GymScreenState extends State<GymScreen> {
     switch (_selectedIndex) {
       case 1:
         return AgendaPage(); // Tela de Agenda
+      case 2:
+        return notificacoesPage();
       case 3:
         return PartilharPage(); // Tela de Partilhar
       default:

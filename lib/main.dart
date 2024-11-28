@@ -64,6 +64,7 @@ class GymScreen extends StatelessWidget {
                 crossAxisCount: 2,
                 crossAxisSpacing: 16.0,
                 mainAxisSpacing: 16.0,
+                childAspectRatio: 2 / 1.5,
                 children: [
                   _buildGridItem(Icons.fitness_center, 'Plano de Treino'),
                   _buildGridItem(Icons.quiz, 'Questionários'),

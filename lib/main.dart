@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'partilhar.dart'; // Importa a página Partilhar
 
 void main() {
   runApp(MyGymApp());
@@ -21,12 +22,14 @@ class GymScreen extends StatefulWidget {
 }
 
 class _GymScreenState extends State<GymScreen> {
-  int _selectedIndex = 0; // Índice do ícone selecionado
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: _selectedIndex == 3 // Navega para Partilhar se o índice for 3
+          ? PartilharPage()
+          : Column(
         children: [
           // Retângulo arredondado envolvendo a AppBar
           Padding(
@@ -114,7 +117,7 @@ class _GymScreenState extends State<GymScreen> {
             _buildBottomIcon(Icons.home_outlined, 0),
             _buildBottomIcon(Icons.calendar_today_outlined, 1),
             _buildBottomIcon(Icons.notifications_outlined, 2),
-            _buildBottomIcon(Icons.share_outlined, 3),
+            _buildBottomIcon(MdiIcons.shareVariantOutline, 3), // Ícone Partilhar
           ],
         ),
       ),
@@ -130,7 +133,7 @@ class _GymScreenState extends State<GymScreen> {
       ),
       onPressed: () {
         setState(() {
-          _selectedIndex = index; // Atualiza o índice selecionado
+          _selectedIndex = index;
         });
       },
     );

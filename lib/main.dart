@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'partilhar.dart'; // Importa a página Partilhar
+import 'partilhar.dart';
+import 'agenda.dart';  // Importando a tela da agenda
 
 void main() {
   runApp(MyGymApp());
@@ -22,105 +23,98 @@ class GymScreen extends StatefulWidget {
 }
 
 class _GymScreenState extends State<GymScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 0; // Índice do item selecionado no BottomAppBar
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _selectedIndex == 3 // Navega para Partilhar se o índice for 3
-          ? PartilharPage()
-          : Column(
-        children: [
-          // Retângulo arredondado envolvendo a AppBar
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(24.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 8,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.grey[300],
-                        child: Icon(Icons.person, color: Colors.black),
-                      ),
-                      SizedBox(width: 12),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Utilizador',
-                            style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'Sócio nº ---',
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.settings_outlined, color: Colors.black),
-                    onPressed: () {
-                      // Lógica para abrir configurações
-                    },
-                  ),
-                ],
-              ),
+  // Função que retorna o widget para a tela de acordo com o índice
+  Widget _getCurrentScreen() {
+    switch (_selectedIndex) {
+      case 1:
+        return AgendaPage(); // Tela de Agenda
+      case 3:
+        return PartilharPage(); // Tela de Partilhar
+      default:
+        return _buildHomeScreen(); // Tela inicial (home)
+    }
+  }
+
+  // Função para construir a tela inicial (home)
+  Widget _buildHomeScreen() {
+    return Column(
+      children: [
+        // Retângulo arredondado envolvendo a AppBar
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(24.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 8,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.grey[300],
+                      child: Icon(Icons.person, color: Colors.black),
+                    ),
+                    SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Utilizador',
+                          style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'Sócio nº ---',
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                IconButton(
+                  icon: Icon(Icons.settings_outlined, color: Colors.black),
+                  onPressed: () {
+                    // Lógica para abrir configurações
+                  },
+                ),
+              ],
             ),
           ),
-
-          // GridView com 6 botões
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16.0,
-                mainAxisSpacing: 16.0,
-                childAspectRatio: 2 / 1.5,
-                children: [
-                  _buildGridItem(MdiIcons.armFlex, 'Plano de Treino'),
-                  _buildGridItem(MdiIcons.commentQuestionOutline, 'Questionários'),
-                  _buildGridItem(MdiIcons.bullseyeArrow, 'Metas'),
-                  _buildGridItem(MdiIcons.bookCheckOutline, 'Reservas'),
-                  _buildGridItem(MdiIcons.run, 'Serviços Extra'),
-                  _buildGridItem(MdiIcons.heart, 'Avaliação Física'),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-
-      // BottomAppBar com ícones
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        elevation: 10,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildBottomIcon(Icons.home_outlined, 0),
-            _buildBottomIcon(Icons.calendar_today_outlined, 1),
-            _buildBottomIcon(Icons.notifications_outlined, 2),
-            _buildBottomIcon(MdiIcons.shareVariantOutline, 3), // Ícone Partilhar
-          ],
         ),
-      ),
+
+        // GridView com 6 botões
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: GridView.count(
+              crossAxisCount: 2,
+              crossAxisSpacing: 16.0,
+              mainAxisSpacing: 16.0,
+              childAspectRatio: 2 / 1.5,
+              children: [
+                _buildGridItem(MdiIcons.armFlex, 'Plano de Treino'),
+                _buildGridItem(MdiIcons.commentQuestionOutline, 'Questionários'),
+                _buildGridItem(MdiIcons.bullseyeArrow, 'Metas'),
+                _buildGridItem(MdiIcons.bookCheckOutline, 'Reservas'),
+                _buildGridItem(MdiIcons.run, 'Serviços Extra'),
+                _buildGridItem(MdiIcons.heart, 'Avaliação Física'),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -129,11 +123,11 @@ class _GymScreenState extends State<GymScreen> {
     return IconButton(
       icon: Icon(
         icon,
-        color: _selectedIndex == index ? Colors.black : Colors.grey[300],
+        color: _selectedIndex == index ? Colors.black : Colors.grey[300], // Cor do ícone selecionado
       ),
       onPressed: () {
         setState(() {
-          _selectedIndex = index;
+          _selectedIndex = index; // Atualiza o índice do BottomAppBar
         });
       },
     );
@@ -160,6 +154,28 @@ class _GymScreenState extends State<GymScreen> {
               style: TextStyle(color: Colors.white, fontSize: 16),
               textAlign: TextAlign.center,
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _getCurrentScreen(), // Chama a função que retorna a tela correspondente
+
+      // BottomAppBar com ícones
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
+        elevation: 10,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildBottomIcon(Icons.home_outlined, 0),
+            _buildBottomIcon(Icons.calendar_today_outlined, 1), // Agora a tela de agenda
+            _buildBottomIcon(Icons.notifications_outlined, 2),
+            _buildBottomIcon(MdiIcons.shareVariantOutline, 3), // Ícone Partilhar
           ],
         ),
       ),

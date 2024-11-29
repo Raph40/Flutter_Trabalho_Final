@@ -21,22 +21,6 @@ class notificacoesPage extends StatefulWidget {
 
 class _notificacoesPageState extends State<notificacoesPage> {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: NotificacoesPage(),
-    );
-  }
-}
-
-class NotificacoesPage extends StatefulWidget {
-  const NotificacoesPage({super.key});
-
-  @override
-  State<NotificacoesPage> createState() => _NotificacoesPageState();
-}
-
-class _NotificacoesPageState extends State<NotificacoesPage> {
 
   bool _isExpanded = false;
 

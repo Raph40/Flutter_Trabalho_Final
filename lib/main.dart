@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:trabalho_final/definicoes.dart';
 import 'package:trabalho_final/notificacoes.dart';
 import 'partilhar.dart';
 import 'agenda.dart';  // Importando a tela da agenda
@@ -89,7 +90,10 @@ class _GymScreenState extends State<GymScreen> {
                 IconButton(
                   icon: Icon(Icons.settings_outlined, color: Colors.black),
                   onPressed: () {
-                    // Lógica para abrir configurações
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => definicoesPage()),
+                    );
                   },
                 ),
               ],

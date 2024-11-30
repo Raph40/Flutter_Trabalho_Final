@@ -20,29 +20,56 @@ class notificacoesPage extends StatefulWidget {
 }
 
 class _notificacoesPageState extends State<notificacoesPage> {
-  @override
-
   bool _isExpanded = false;
+  TextEditingController _searchController = TextEditingController();
+  List<Map<String, String>> filteredNotificacoesList = notificacoesList;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_filterNotifications);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _filterNotifications() {
+    final query = _searchController.text.toLowerCase();
+    setState(() {
+      // Se não houver texto na pesquisa, mostramos todas as notificações
+      if (query.isEmpty) {
+        filteredNotificacoesList = notificacoesList;
+      } else {
+        filteredNotificacoesList = notificacoesList.where((notification) {
+          // Verifica se o nome começa com o texto digitado
+          return notification['name']!.toLowerCase().startsWith(query);
+        }).toList();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight), // Define o tamanho do AppBar
+        preferredSize: Size.fromHeight(kToolbarHeight),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white, // Cor de fundo do AppBar
+            color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.5), // Cor da sombra
-                blurRadius: 6, // Suavidade da sombra
-                offset: Offset(0, 3), // Deslocamento da sombra
+                color: Colors.grey.withOpacity(0.5),
+                blurRadius: 6,
+                offset: Offset(0, 3),
               ),
             ],
           ),
           child: AppBar(
-            backgroundColor: Colors.transparent, // Torna o fundo transparente
-            elevation: 0, // Remove sombra nativa
+            backgroundColor: Colors.transparent,
+            elevation: 0,
             centerTitle: true,
             title: Text(
               "Notificações",
@@ -63,31 +90,32 @@ class _notificacoesPageState extends State<notificacoesPage> {
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  color: Colors.grey, // Cor da linha preta
-                  width: 0.5,          // Espessura da linha
+                  color: Colors.grey,
+                  width: 0.5,
                 ),
               ),
             ),
             child: Row(
               children: [
-                AnimatedContainer(
-                  duration: Duration(milliseconds: 300), // Animação suave
-                  width: _isExpanded ? 330.0 : 75.0, // Largura da caixa (expandida/retraída)
-                  height: 40.0, // Altura fixa
-                  decoration: BoxDecoration(
-                    color: Color.fromRGBO(254, 247, 255, 1.0), // Fundo da barra de pesquisa
-                    borderRadius: BorderRadius.circular(20), // Bordas mais arredondadas
-                    border: Border.all(color: Colors.grey, width: 1), // Borda
-                  ),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _isExpanded = !_isExpanded; // Alterna entre expandido e retraído
-                          });
-                        },
-                        child: Padding(
+                // A mudança aqui é no GestureDetector que agora envolve a área inteira da pesquisa
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _isExpanded = !_isExpanded; // Alterna entre expandido e retraído
+                    });
+                  },
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 300),
+                    width: _isExpanded ? 330.0 : 75.0, // Largura depende do estado expandido
+                    height: 40.0, // Altura fixa
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(254, 247, 255, 1.0), // Cor de fundo
+                      borderRadius: BorderRadius.circular(20), // Bordas arredondadas
+                      border: Border.all(color: Colors.grey, width: 1), // Borda
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Icon(
                             Icons.search,
@@ -95,24 +123,25 @@ class _notificacoesPageState extends State<notificacoesPage> {
                             size: 24,
                           ),
                         ),
-                      ),
-                      if (_isExpanded)
-                        Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: 'Pesquisar...',
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 10,
+                        if (_isExpanded)
+                          Expanded(
+                            child: TextField(
+                              controller: _searchController,
+                              decoration: InputDecoration(
+                                hintText: 'Pesquisar...',
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 10,
+                                ),
+                              ),
+                              style: TextStyle(
+                                height: 1.9,
                               ),
                             ),
-                            style: TextStyle(
-                              height: 1.9, // Controla a altura da linha para alinhamento vertical
-                            ),
                           ),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Spacer(),
@@ -133,9 +162,9 @@ class _notificacoesPageState extends State<notificacoesPage> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: notificacoesList.length,
+              itemCount: filteredNotificacoesList.length,
               itemBuilder: (context, index) {
-                final notification = notificacoesList[index];
+                final notification = filteredNotificacoesList[index];
                 return ListTile(
                   leading: CircleAvatar(
                     backgroundImage: notification['image']!.startsWith('http')
@@ -149,7 +178,6 @@ class _notificacoesPageState extends State<notificacoesPage> {
                   subtitle: Text(notification['message']!),
                   trailing: Text(notification['date']!),
                 );
-
               },
             ),
           ),
@@ -191,4 +219,3 @@ List<Map<String, String>> notificacoesList = [
     "image": "https://image.cdn2.seaart.me/2023-12-20/cm1ds6te878c738ime5g/f09c19216210d185f6b888f9d87e1330c383843d_high.webp",
   },
 ];
-

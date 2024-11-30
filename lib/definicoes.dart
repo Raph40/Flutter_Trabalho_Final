@@ -142,23 +142,41 @@ class _definicoesPageState extends State<definicoesPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      Spacer(),
+                      IconButton(
+                        icon: Icon(Icons.filter_list, color: Colors.black),
+                        onPressed: () {
+                          setState(() {
+                            _selectedLanguage = "Portugal";
+                          });
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 20.0),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.delete, color: Colors.black),
+                        onPressed: () {
+                          setState(() {
+                            _selectedLanguage = "Inglês";
+                          });
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 20.0),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.edit, color: Colors.black),
+                        onPressed: () {
+                          setState(() {
+                            _selectedLanguage = "Alemão";
+                          });
+                        },
+                      ),
                     ],
                   ),
                   SizedBox(height: 16),
                   // Lista de opções de idiomas
-                  Column(
-                    children: _languages.map((language) {
-                      return ListTile(
-                        title: Text(language['name']),
-                        trailing: Icon(Icons.arrow_forward_ios),
-                        onTap: () {
-                          setState(() {
-                            _selectedLanguage = language['name'];
-                          });
-                        },
-                      );
-                    }).toList(),
-                  ),
                 ],
               ),
             ),

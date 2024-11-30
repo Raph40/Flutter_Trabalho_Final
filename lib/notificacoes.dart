@@ -138,7 +138,9 @@ class _notificacoesPageState extends State<notificacoesPage> {
                 final notification = notificacoesList[index];
                 return ListTile(
                   leading: CircleAvatar(
-                    backgroundImage: AssetImage(notification['image']!),
+                    backgroundImage: notification['image']!.startsWith('http')
+                        ? NetworkImage(notification['image']!)
+                        : AssetImage(notification['image']!) as ImageProvider,
                   ),
                   title: Text(
                     notification['name']!,
@@ -147,6 +149,7 @@ class _notificacoesPageState extends State<notificacoesPage> {
                   subtitle: Text(notification['message']!),
                   trailing: Text(notification['date']!),
                 );
+
               },
             ),
           ),
@@ -158,34 +161,34 @@ class _notificacoesPageState extends State<notificacoesPage> {
 
 List<Map<String, String>> notificacoesList = [
   {
-    "name": "Carlos Carvalho",
+    "name": "Ricardo Chambel",
     "message": "Jantar de Natal",
     "date": "18/11/24",
-    "image": "assets/carlos.png", // Substitua pelo caminho correto da imagem
+    "image": "https://cdn.pixabay.com/photo/2021/06/04/10/29/man-6309454_960_720.jpg",
   },
   {
-    "name": "Carlos Carvalho (4)",
+    "name": "Ricardo Chambel",
     "message": "Código de Acesso",
     "date": "30/09/24",
-    "image": "assets/carlos.png",
+    "image": "https://cdn.pixabay.com/photo/2021/06/04/10/29/man-6309454_960_720.jpg",
   },
   {
-    "name": "Carlos Carvalho",
+    "name": "Ricardo Chambel",
     "message": "Novo plano de treino",
     "date": "26/09/24",
-    "image": "assets/carlos.png",
+    "image": "https://cdn.pixabay.com/photo/2021/06/04/10/29/man-6309454_960_720.jpg",
   },
   {
-    "name": "Mariana Torres",
-    "message": "Condicionamento (temporário) de acesso ao Ginásio",
+    "name": "Maria Gomes",
+    "message": "Fim do condicionamento de acesso ao Ginásio",
     "date": "13/09/24",
-    "image": "assets/mariana.png",
+    "image": "https://image.cdn2.seaart.me/2023-12-20/cm1ds6te878c738ime5g/f09c19216210d185f6b888f9d87e1330c383843d_high.webp",
   },
   {
-    "name": "Mariana Torres",
+    "name": "Maria Gomes",
     "message": "Condicionamento (temporário) de acesso ao Ginásio",
     "date": "31/08/24",
-    "image": "assets/mariana.png",
+    "image": "https://image.cdn2.seaart.me/2023-12-20/cm1ds6te878c738ime5g/f09c19216210d185f6b888f9d87e1330c383843d_high.webp",
   },
 ];
 

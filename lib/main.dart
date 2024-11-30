@@ -3,7 +3,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:trabalho_final/definicoes.dart';
 import 'package:trabalho_final/notificacoes.dart';
 import 'partilhar.dart';
-import 'agenda.dart';  // Importando a tela da agenda
+import 'agenda.dart';
 
 void main() {
   runApp(MyGymApp());

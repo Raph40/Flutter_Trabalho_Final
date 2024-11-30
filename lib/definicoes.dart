@@ -116,33 +116,6 @@ class _definicoesPageState extends State<definicoesPage> {
               ),
             ),
           ),
-          // Grupo 2: Menu App
-          Text(
-            'Menu da App',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Card(
-            elevation: 4,
-            margin: EdgeInsets.only(bottom: 16),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListTile(
-                    title: Text('Barra de Navegação'),
-                    subtitle: Text(
-                        'Configure os atalhos visíveis na Barra de Navegação do App.'),
-                    trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            ),
-          ),
           // Grupo 4: Lingua
           Text(
             'Língua',
@@ -347,4 +320,3 @@ List<Map<String, String>> definicoesList = [
     "icon": "logout",
   },
 ];
-

@@ -24,12 +24,13 @@ class _AgendaPageState extends State<AgendaPage> {
 
     // Inicializa o primeiro e último dia do calendário
     _firstDay = DateTime.utc(2024, 1, 1);
-    _lastDay = DateTime.utc(2024, 12, 31);
+    _lastDay = DateTime.utc(2025, 12, 31);
 
     _events = {}; // Inicializa o mapa de eventos vazio
 
     // Exemplo de como adicionar eventos
     _events = {
+      DateTime.utc(2024, 11, 4): ['Entrada no clube às 19:00'],
       DateTime.utc(2024, 11, 29): ['Aula de Yoga às 10:00'],
       DateTime.utc(2024, 11, 30): ['Aula de Pilates às 14:00'],
     };

@@ -28,6 +28,7 @@ class _definicoesPageState extends State<definicoesPage> {
   bool login = true;
 
   String _selectedLanguage = 'Português';
+  String _activeIcon = "portugal";
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +74,7 @@ class _definicoesPageState extends State<definicoesPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SwitchListTile(
+                    activeTrackColor: Colors.red[700],
                     title: Text('Notificações'),
                     subtitle:
                     Text('Configure as definições do centro de Notificações.'),
@@ -84,6 +86,7 @@ class _definicoesPageState extends State<definicoesPage> {
                     },
                   ),
                   SwitchListTile(
+                    activeTrackColor: Colors.red[700],
                     title: Text('Login Automático'),
                     subtitle: Text(
                         'Deseja que o login seja feito automaticamente quando entra na aplicação?'),
@@ -145,10 +148,18 @@ class _definicoesPageState extends State<definicoesPage> {
                       ),
                       Spacer(),
                       IconButton(
-                        icon: Iconify(Emojione.flag_for_portugal),
+                        icon: Opacity(
+                          opacity: _activeIcon == "portugal" ? 1.0 : 0.3, // Controla a opacidade
+                          child: Iconify(
+                            Emojione.flag_for_portugal,
+                            size: 40,
+                            color: null, // Mantém as cores originais quando ativo
+                          ),
+                        ),
                         onPressed: () {
                           setState(() {
                             _selectedLanguage = "Português";
+                            _activeIcon = "portugal";
                           });
                         },
                       ),
@@ -156,10 +167,18 @@ class _definicoesPageState extends State<definicoesPage> {
                         padding: EdgeInsets.only(right: 20.0),
                       ),
                       IconButton(
-                        icon: Iconify(Emojione.flag_for_united_kingdom),
+                        icon: Opacity(
+                          opacity: _activeIcon == "inglês" ? 1.0 : 0.3, // Define a opacidade
+                          child: Iconify(
+                            Emojione.flag_for_united_kingdom,
+                            size: 40,
+                            color: null, // Mantém as cores originais do ícone
+                          ),
+                        ),
                         onPressed: () {
                           setState(() {
                             _selectedLanguage = "Inglês";
+                            _activeIcon = "inglês";
                           });
                         },
                       ),
@@ -167,10 +186,18 @@ class _definicoesPageState extends State<definicoesPage> {
                         padding: EdgeInsets.only(right: 20.0),
                       ),
                       IconButton(
-                        icon: Iconify(Emojione.flag_for_france),
+                        icon: Opacity(
+                          opacity: _activeIcon == "francês" ? 1.0 : 0.3, // Define a opacidade
+                          child: Iconify(
+                            Emojione.flag_for_france,
+                            size: 40,
+                            color: null, // Mantém as cores originais quando ativo
+                          ),
+                        ),
                         onPressed: () {
                           setState(() {
                             _selectedLanguage = "Francês";
+                            _activeIcon = "francês";
                           });
                         },
                       ),

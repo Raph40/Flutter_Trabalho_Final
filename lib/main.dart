@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:trabalho_final/definicoes.dart';
 import 'package:trabalho_final/notificacoes.dart';
+import 'package:trabalho_final/planotreino.dart';
 import 'partilhar.dart';
 import 'agenda.dart';
 
@@ -144,7 +145,37 @@ class _GymScreenState extends State<GymScreen> {
   Widget _buildGridItem(IconData icon, String label) {
     return GestureDetector(
       onTap: () {
-        // Lógica para cada botão
+        if (label == 'Plano de Treino') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => planotreinoPage()),
+          );
+        } else if (label == 'Questionário') {
+          /*Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => bibliotecaPage()),
+          );*/
+        } else if (label == 'Metas') {
+          /*Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => cidadaniaPage()),
+          );*/
+        } else if (label == 'Reservas') {
+          /*Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => educacaoPage()),
+          );*/
+        } else if (label == 'Serviços Extra') {
+          /*Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => piscinasPage()),
+          );*/
+        } else if (label == 'Avaliação Fisica') {
+          /*Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => piscinasPage()),
+          );*/
+        }
       },
       child: Container(
         decoration: BoxDecoration(

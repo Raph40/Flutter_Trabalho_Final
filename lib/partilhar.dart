@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
 
 class PartilharPage extends StatelessWidget {
+  final String playStoreLink = 'https://play.google.com/store';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,13 +46,13 @@ class PartilharPage extends StatelessWidget {
             Divider(color: Colors.grey[300], height: 20),
 
             // Botões centralizados com linha de separação
-            _buildShareOption(MdiIcons.messageTextOutline, 'Mensagem'),
+            _buildShareOption(MdiIcons.messageTextOutline, 'Mensagem', () => _shareViaMessage(context)),
             Divider(color: Colors.grey[300], height: 20), // Linha de separação
-            _buildShareOption(MdiIcons.whatsapp, 'Whatsapp'),
+            _buildShareOption(MdiIcons.whatsapp, 'Whatsapp', () => _shareViaWhatsapp()),
             Divider(color: Colors.grey[300], height: 20),
-            _buildShareOption(MdiIcons.emailOutline, 'Email'),
+            _buildShareOption(MdiIcons.emailOutline, 'Email', () => _shareViaEmail()),
             Divider(color: Colors.grey[300], height: 20),
-            _buildShareOption(MdiIcons.linkVariant, 'Copiar Link'),
+            _buildShareOption(MdiIcons.linkVariant, 'Copiar Link', () => _copyLinkToClipboard()),
 
             // Linha de separação no final
             Divider(color: Colors.grey[300], height: 20),
@@ -59,13 +63,11 @@ class PartilharPage extends StatelessWidget {
   }
 
   // Função para criar as opções de partilha com ícones
-  Widget _buildShareOption(IconData icon, String label) {
+  Widget _buildShareOption(IconData icon, String label, Function onPressed) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextButton.icon(
-        onPressed: () {
-          // Lógica para cada botão de partilha
-        },
+        onPressed: () => onPressed(),
         icon: Icon(icon, color: Colors.grey), // Cor cinza para o ícone
         label: Text(
           label,
@@ -83,5 +85,41 @@ class PartilharPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Função para compartilhar via mensagem
+  void _shareViaMessage(BuildContext context) async {
+    final Uri messageUrl = Uri.parse('sms:?body=Instale o nosso app: $playStoreLink');
+    if (await canLaunch(messageUrl.toString())) {
+      await launch(messageUrl.toString());
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Não foi possível abrir o app de mensagens')));
+    }
+  }
+
+  // Função para compartilhar via WhatsApp
+  void _shareViaWhatsapp() async {
+    final String whatsappUrl = 'whatsapp://send?text=$playStoreLink';
+    if (await canLaunch(whatsappUrl)) {
+      await launch(whatsappUrl);
+    } else {
+      print('Não foi possível abrir o WhatsApp');
+    }
+  }
+
+  // Função para compartilhar via email
+  void _shareViaEmail() async {
+    final Uri emailUrl = Uri.parse('mailto:?subject=Baixe a nossa aplicação&body=$playStoreLink');
+    if (await canLaunch(emailUrl.toString())) {
+      await launch(emailUrl.toString());
+    } else {
+      print('Não foi possível abrir o app de e-mail');
+    }
+  }
+
+  // Função para copiar o link para a área de transferência
+  void _copyLinkToClipboard() async {
+    await Clipboard.setData(ClipboardData(text: playStoreLink));
+    print('Link copiado para a área de transferência');
   }
 }

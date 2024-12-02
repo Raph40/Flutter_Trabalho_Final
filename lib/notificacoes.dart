@@ -146,15 +146,15 @@ class _notificacoesPageState extends State<notificacoesPage> {
                 ),
                 Spacer(),
                 IconButton(
-                  icon: Icon(Icons.filter_list, color: Colors.black),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.delete, color: Colors.black),
+                  icon: Icon(Icons.add_outlined, color: Colors.black),
                   onPressed: () {},
                 ),
                 IconButton(
                   icon: Icon(Icons.edit, color: Colors.black),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete, color: Colors.black),
                   onPressed: () {},
                 ),
               ],

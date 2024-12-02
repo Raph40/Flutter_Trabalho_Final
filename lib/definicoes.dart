@@ -3,6 +3,9 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:colorful_iconify_flutter/icons/emojione.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 class definicoes extends StatelessWidget {
   const definicoes({super.key});
@@ -24,32 +27,84 @@ class definicoesPage extends StatefulWidget {
 }
 
 class _definicoesPageState extends State<definicoesPage> {
-
   bool notificacoes = true;
   bool login = true;
 
   String _selectedLanguage = 'Português';
   String _activeIcon = "portugal";
 
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
+
+  @override
+  void initState() {
+    super.initState();
+    tz.initializeTimeZones(); // Initialize timezones
+    _initializeNotifications();
+  }
+
+  // Função para inicializar o FlutterLocalNotificationsPlugin
+  void _initializeNotifications() async {
+    const AndroidInitializationSettings initializationSettingsAndroid =
+    AndroidInitializationSettings('app_icon');
+    const InitializationSettings initializationSettings =
+    InitializationSettings(android: initializationSettingsAndroid);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  }
+
+  // Função para agendar uma notificação
+  Future<void> _scheduleNotification() async {
+    final tz.TZDateTime scheduledDate = tz.TZDateTime.now(tz.local).add(Duration(seconds: 5)); // Use TZDateTime
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      0,
+      'Notificação Programada',
+      'Essa notificação foi programada',
+      scheduledDate,
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'your_channel_id',
+          'your_channel_name',
+          importance: Importance.max,
+          priority: Priority.high,
+        ),
+      ),
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation:
+      UILocalNotificationDateInterpretation.absoluteTime,
+    );
+  }
+
+  // Função que será chamada quando o SwitchListTile for alterado
+  void _toggleNotifications(bool value) {
+    setState(() {
+      notificacoes = value;
+    });
+    if (notificacoes) {
+      _scheduleNotification(); // Se as notificações forem ativadas, agendamos uma
+    } else {
+      flutterLocalNotificationsPlugin.cancelAll(); // Cancelar todas as notificações
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight), // Define o tamanho do AppBar
+        preferredSize: Size.fromHeight(kToolbarHeight),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white, // Cor de fundo do AppBar
+            color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.5), // Cor da sombra
-                blurRadius: 6, // Suavidade da sombra
-                offset: Offset(0, 3), // Deslocamento da sombra
+                color: Colors.grey.withOpacity(0.5),
+                blurRadius: 6,
+                offset: Offset(0, 3),
               ),
             ],
           ),
           child: AppBar(
-            backgroundColor: Colors.transparent, // Torna o fundo transparente
-            elevation: 0, // Remove sombra nativa
+            backgroundColor: Colors.transparent,
+            elevation: 0,
             centerTitle: true,
             title: Text(
               "Definições",
@@ -77,20 +132,16 @@ class _definicoesPageState extends State<definicoesPage> {
                   SwitchListTile(
                     activeTrackColor: Colors.red[700],
                     title: Text('Notificações'),
-                    subtitle:
-                    Text('Configure as definições do centro de Notificações.'),
+                    subtitle: Text('Ligar e desligar as notificações.'),
                     value: notificacoes,
                     onChanged: (bool value) {
-                      setState(() {
-                        notificacoes = value;
-                      });
+                      _toggleNotifications(value); // Controla as notificações
                     },
                   ),
                   SwitchListTile(
                     activeTrackColor: Colors.red[700],
                     title: Text('Login Automático'),
-                    subtitle: Text(
-                        'Deseja que o login seja feito automaticamente quando entra na aplicação?'),
+                    subtitle: Text('Login automático quando entra na aplicação'),
                     value: login,
                     onChanged: (bool value) {
                       setState(() {
@@ -102,21 +153,14 @@ class _definicoesPageState extends State<definicoesPage> {
                     title: Text('Avalie a Aplicação'),
                     subtitle: Text('Partilhe a sua avaliação da nossa aplicação.'),
                     trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
-                  ),
-                  ListTile(
-                    title: Text('Fale connosco'),
-                    subtitle: Text(
-                        'Partilhe connosco os seus comentários/sugestões sobre a nossa aplicação.'),
-                    trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
+                    onTap: () => _launchURL('https://play.google.com/'),
                   ),
                   ListTile(
                     title: Text('Política de Privacidade'),
                     subtitle: Text(
                         'Consulte a forma como nós recolhemos e tratamos os seus dados pessoais.'),
                     trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
+                    onTap: () => _launchURL('https://onvirtualgym.com/privacy-policy/'),
                   ),
                 ],
               ),
@@ -150,11 +194,11 @@ class _definicoesPageState extends State<definicoesPage> {
                       Spacer(),
                       IconButton(
                         icon: Opacity(
-                          opacity: _activeIcon == "portugal" ? 1.0 : 0.3, // Controla a opacidade
+                          opacity: _activeIcon == "portugal" ? 1.0 : 0.3,
                           child: Iconify(
                             Emojione.flag_for_portugal,
                             size: 40,
-                            color: null, // Mantém as cores originais quando ativo
+                            color: null,
                           ),
                         ),
                         onPressed: () {
@@ -164,16 +208,14 @@ class _definicoesPageState extends State<definicoesPage> {
                           });
                         },
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 20.0),
-                      ),
+                      Padding(padding: EdgeInsets.only(right: 20.0)),
                       IconButton(
                         icon: Opacity(
-                          opacity: _activeIcon == "inglês" ? 1.0 : 0.3, // Define a opacidade
+                          opacity: _activeIcon == "inglês" ? 1.0 : 0.3,
                           child: Iconify(
                             Emojione.flag_for_united_kingdom,
                             size: 40,
-                            color: null, // Mantém as cores originais do ícone
+                            color: null,
                           ),
                         ),
                         onPressed: () {
@@ -183,16 +225,14 @@ class _definicoesPageState extends State<definicoesPage> {
                           });
                         },
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 20.0),
-                      ),
+                      Padding(padding: EdgeInsets.only(right: 20.0)),
                       IconButton(
                         icon: Opacity(
-                          opacity: _activeIcon == "francês" ? 1.0 : 0.3, // Define a opacidade
+                          opacity: _activeIcon == "francês" ? 1.0 : 0.3,
                           child: Iconify(
                             Emojione.flag_for_france,
                             size: 40,
-                            color: null, // Mantém as cores originais quando ativo
+                            color: null,
                           ),
                         ),
                         onPressed: () {
@@ -205,7 +245,6 @@ class _definicoesPageState extends State<definicoesPage> {
                     ],
                   ),
                   SizedBox(height: 6),
-                  // Lista de opções de idiomas
                 ],
               ),
             ),
@@ -356,57 +395,3 @@ void _launchURL(String url) async {
     throw 'Não foi possível abrir o link: $url';
   }
 }
-
-List<Map<String, dynamic>> _languages = [
-  {"name": "Português", "icon": Icons.flag_circle},
-  {"name": "Inglês (Britânico)", "icon": Icons.language},
-  {"name": "Alemão", "icon": Icons.translate},
-];
-
-List<Map<String, String>> definicoesList = [
-  {
-    "title": "Notificações",
-    "description": "Configure as definições do centro de Notificações.",
-    "icon": "notifications", // Nome do ícone do Material Icons
-  },
-  {
-    "title": "Login Automático",
-    "description": "Deseja que o login seja feito automaticamente quando entra na aplicação?",
-    "icon": "login",
-  },
-  {
-    "title": "Avalie a Aplicação",
-    "description": "Partilhe a sua avaliação da nossa aplicação.",
-    "icon": "star_rate",
-  },
-  {
-    "title": "Fale Connosco",
-    "description": "Partilhe connosco os seus comentários/sugestões sobre a nossa aplicação.",
-    "icon": "chat",
-  },
-  {
-    "title": "Política de Privacidade",
-    "description": "Consulte a forma como recolhemos e tratamos os seus dados pessoais.",
-    "icon": "policy",
-  },
-  {
-    "title": "Barra de Navegação",
-    "description": "Configure os atalhos visíveis na Barra de Navegação do App.",
-    "icon": "navigation",
-  },
-  {
-    "title": "Língua",
-    "description": "Selecione o idioma da aplicação.",
-    "icon": "language",
-  },
-  {
-    "title": "Versão",
-    "description": "2.77",
-    "icon": "info",
-  },
-  {
-    "title": "Terminar Sessão",
-    "description": "Sair da aplicação.",
-    "icon": "logout",
-  },
-];

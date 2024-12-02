@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:colorful_iconify_flutter/icons/emojione.dart';
 
 class definicoes extends StatelessWidget {
   const definicoes({super.key});
@@ -26,7 +28,6 @@ class _definicoesPageState extends State<definicoesPage> {
   bool login = true;
 
   String _selectedLanguage = 'Português';
-  String _activeIcon = "portugal";
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +82,6 @@ class _definicoesPageState extends State<definicoesPage> {
                         notificacoes = value;
                       });
                     },
-                    activeTrackColor: Colors.red,
                   ),
                   SwitchListTile(
                     title: Text('Login Automático'),
@@ -93,7 +93,6 @@ class _definicoesPageState extends State<definicoesPage> {
                         login = value;
                       });
                     },
-                    activeTrackColor: Colors.red,
                   ),
                   ListTile(
                     title: Text('Avalie a Aplicação'),
@@ -142,16 +141,14 @@ class _definicoesPageState extends State<definicoesPage> {
                         _selectedLanguage,
                         style: TextStyle(
                           fontSize: 18,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       Spacer(),
                       IconButton(
-                        icon: Icon(Icons.filter_list, color: _activeIcon == "portugal" ? null : Colors.grey),
+                        icon: Iconify(Emojione.flag_for_portugal),
                         onPressed: () {
                           setState(() {
-                            _selectedLanguage = "Portugal";
-                            _activeIcon = "portugal";
+                            _selectedLanguage = "Português";
                           });
                         },
                       ),
@@ -159,11 +156,10 @@ class _definicoesPageState extends State<definicoesPage> {
                         padding: EdgeInsets.only(right: 20.0),
                       ),
                       IconButton(
-                        icon: Icon(Icons.delete, color: _activeIcon == "britanico" ? null : Colors.grey),
+                        icon: Iconify(Emojione.flag_for_united_kingdom),
                         onPressed: () {
                           setState(() {
                             _selectedLanguage = "Inglês";
-                            _activeIcon = "britanico";
                           });
                         },
                       ),
@@ -171,17 +167,16 @@ class _definicoesPageState extends State<definicoesPage> {
                         padding: EdgeInsets.only(right: 20.0),
                       ),
                       IconButton(
-                        icon: Icon(Icons.edit, color: _activeIcon == "alemão" ? null : Colors.grey),
+                        icon: Iconify(Emojione.flag_for_france),
                         onPressed: () {
                           setState(() {
-                            _selectedLanguage = "Alemão";
-                            _activeIcon = "alemão";
+                            _selectedLanguage = "Francês";
                           });
                         },
                       ),
                     ],
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 6),
                   // Lista de opções de idiomas
                 ],
               ),

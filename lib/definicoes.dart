@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:colorful_iconify_flutter/icons/emojione.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class definicoes extends StatelessWidget {
   const definicoes({super.key});
@@ -209,6 +210,7 @@ class _definicoesPageState extends State<definicoesPage> {
               ),
             ),
           ),
+
           // Grupo 5: Social
           Text(
             'Social',
@@ -222,26 +224,59 @@ class _definicoesPageState extends State<definicoesPage> {
             margin: EdgeInsets.only(bottom: 16),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  ListTile(
-                    title: Text('Seguir @OnVirtualGym'),
-                    subtitle: Text('Siga-nos no Facebook.'),
-                    trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          MdiIcons.facebook,
+                          size: 40,
+                          color: Colors.blue,
+                        ),
+                        onPressed: () => _launchURL('https://www.facebook.com/gymvirtual/'),
+                      ),
+                      Text(
+                        'Facebook',
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                  ListTile(
-                    title: Text('Seguir @OnVirtualGym'),
-                    subtitle: Text('Siga-nos no LinkedIn.'),
-                    trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          MdiIcons.linkedin,
+                          size: 40,
+                          color: Colors.blue[700],
+                        ),
+                        onPressed: () => _launchURL('https://pt.linkedin.com/'),
+                      ),
+                      Text(
+                        'LinkedIn',
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                  ListTile(
-                    title: Text('Seguir @OnVirtualGym'),
-                    subtitle: Text('Siga-nos no Instagram.'),
-                    trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          MdiIcons.instagram,
+                          size: 40,
+                          color: Colors.purple,
+                        ),
+                        onPressed: () => _launchURL('https://www.instagram.com/'),
+                      ),
+                      Text(
+                        'Instagram',
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -302,7 +337,7 @@ class _definicoesPageState extends State<definicoesPage> {
           // Direitos Reservados
           Center(
             child: Text(
-              'Todos os direitos reservados a quêm? Ao Caralho',
+              'Todos os direitos reservados a @GymVirtual',
               style: TextStyle(color: Colors.grey),
               textAlign: TextAlign.center,
             ),
@@ -310,6 +345,15 @@ class _definicoesPageState extends State<definicoesPage> {
         ],
       ),
     );
+  }
+}
+
+void _launchURL(String url) async {
+  final Uri uri = Uri.parse(url);
+  if (await canLaunchUrl(uri)) {
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  } else {
+    throw 'Não foi possível abrir o link: $url';
   }
 }
 

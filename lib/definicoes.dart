@@ -26,6 +26,7 @@ class _definicoesPageState extends State<definicoesPage> {
   bool login = true;
 
   String _selectedLanguage = 'Português';
+  String _activeIcon = "portugal";
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +81,7 @@ class _definicoesPageState extends State<definicoesPage> {
                         notificacoes = value;
                       });
                     },
+                    activeTrackColor: Colors.red,
                   ),
                   SwitchListTile(
                     title: Text('Login Automático'),
@@ -91,6 +93,7 @@ class _definicoesPageState extends State<definicoesPage> {
                         login = value;
                       });
                     },
+                    activeTrackColor: Colors.red,
                   ),
                   ListTile(
                     title: Text('Avalie a Aplicação'),
@@ -144,10 +147,11 @@ class _definicoesPageState extends State<definicoesPage> {
                       ),
                       Spacer(),
                       IconButton(
-                        icon: Icon(Icons.filter_list, color: Colors.black),
+                        icon: Icon(Icons.filter_list, color: _activeIcon == "portugal" ? null : Colors.grey),
                         onPressed: () {
                           setState(() {
                             _selectedLanguage = "Portugal";
+                            _activeIcon = "portugal";
                           });
                         },
                       ),
@@ -155,10 +159,11 @@ class _definicoesPageState extends State<definicoesPage> {
                         padding: EdgeInsets.only(right: 20.0),
                       ),
                       IconButton(
-                        icon: Icon(Icons.delete, color: Colors.black),
+                        icon: Icon(Icons.delete, color: _activeIcon == "britanico" ? null : Colors.grey),
                         onPressed: () {
                           setState(() {
                             _selectedLanguage = "Inglês";
+                            _activeIcon = "britanico";
                           });
                         },
                       ),
@@ -166,10 +171,11 @@ class _definicoesPageState extends State<definicoesPage> {
                         padding: EdgeInsets.only(right: 20.0),
                       ),
                       IconButton(
-                        icon: Icon(Icons.edit, color: Colors.black),
+                        icon: Icon(Icons.edit, color: _activeIcon == "alemão" ? null : Colors.grey),
                         onPressed: () {
                           setState(() {
                             _selectedLanguage = "Alemão";
+                            _activeIcon = "alemão";
                           });
                         },
                       ),

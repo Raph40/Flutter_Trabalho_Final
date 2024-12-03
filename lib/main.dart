@@ -48,7 +48,7 @@ class _GymScreenState extends State<GymScreen> {
       children: [
         // Retângulo arredondado envolvendo a AppBar
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(top:50, right: 16, left: 16, bottom: 16),
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,

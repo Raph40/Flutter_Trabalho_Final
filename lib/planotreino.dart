@@ -20,23 +20,23 @@ class planotreinoPage extends StatefulWidget {
 }
 
 class _planotreinoPageState extends State<planotreinoPage> {
+  String selectedPlan = 'Plano B'; // Inicializamos com Plano B
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
-        child: Container(
-          child: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            centerTitle: true,
-            title: Text(
-              "Histórico",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+        child: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: Text(
+            "Plano de Treino",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -52,17 +52,29 @@ class _planotreinoPageState extends State<planotreinoPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Plano B',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                      GestureDetector(
+                        onTap: () => _showPlanSelection(context),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min, // Mantém o alinhamento compacto
+                          children: [
+                            Text(
+                              selectedPlan,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.white,
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(height: 8),
                       Text(
-                        'Adaptação + Ganho de massa muscular',
+                        _getPlanDescription(selectedPlan),
                         style: TextStyle(
                           color: Colors.grey[400],
                           fontSize: 14,
@@ -70,7 +82,7 @@ class _planotreinoPageState extends State<planotreinoPage> {
                       ),
                       SizedBox(height: 8),
                       Text(
-                        '15-03-2024 + 10-05-2024',
+                        _getPlanDate(selectedPlan),
                         style: TextStyle(
                           color: Colors.grey[400],
                           fontSize: 12,
@@ -90,34 +102,113 @@ class _planotreinoPageState extends State<planotreinoPage> {
           Expanded(
             child: ListView(
               padding: EdgeInsets.all(16),
-              children: [
-                _buildExerciseItem('Bicicleta Vertical', true),
-                _buildExerciseItem('Puxador à frente pega larga em máquina', false),
-                _buildExerciseItem('Remo puxador pega fechada em máquina', false),
-                _buildExerciseItem('Pull-over horizontal com halteres', false),
-                _buildExerciseItem('Remada baixa máquina cavalo', false),
-                _buildExerciseItem('Curl alternado com halteres', false),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(16),
-            child: ElevatedButton(
-              onPressed: () {
-                // Ação para iniciar plano
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-              ),
-              child: Text(
-                'Iniciar Plano',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
+              children: _getPlanExercises(selectedPlan),
             ),
           ),
         ],
       ),
     );
+  }
+
+  void _showPlanSelection(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          color: Colors.white,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: Text('Plano A'),
+                onTap: () => _selectPlan('Plano A'),
+              ),
+              ListTile(
+                title: Text('Plano B'),
+                onTap: () => _selectPlan('Plano B'),
+              ),
+              ListTile(
+                title: Text('Plano C'),
+                onTap: () => _selectPlan('Plano C'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _selectPlan(String plan) {
+    setState(() {
+      selectedPlan = plan;
+    });
+    Navigator.pop(context); // Fechar o modal
+  }
+
+  String _getPlanDescription(String plan) {
+    switch (plan) {
+      case 'Plano A':
+        return 'Treino de Peito + Ombros';
+      case 'Plano B':
+        return 'Treino de Bicep + Costas';
+      case 'Plano C':
+        return 'Treino de Pernas';
+      default:
+        return '';
+    }
+  }
+
+  String _getPlanDate(String plan) {
+    switch (plan) {
+      case 'Plano A':
+        return '15-03-2024 a 10-05-2024';
+      case 'Plano B':
+        return '15-03-2024 a 10-05-2024';
+      case 'Plano C':
+        return '15-03-2024 a 10-05-2024';
+      default:
+        return '';
+    }
+  }
+
+  List<Widget> _getPlanExercises(String plan) {
+    switch (plan) {
+      case 'Plano A':
+        return [
+          _buildExerciseItem('Bicicleta Vertical', true),
+          _buildExerciseItem('Supino horizontal no Rack', false),
+          _buildExerciseItem('Supino inclinado com barra', false),
+          _buildExerciseItem('Butterfly', false),
+          _buildExerciseItem('Press militar com barra livre à frente', false),
+          _buildExerciseItem('Press rotativo com halteres', false),
+          _buildExerciseItem('Abertura posterior na máquina', false),
+          _buildExerciseItem('Extensão Tríceps na máquina do polia', false),
+        ];
+      case 'Plano B':
+        return [
+          _buildExerciseItem('Bicicleta Vertical', true),
+          _buildExerciseItem('Remo puxador pega fechada em máq. 5 estações', false),
+          _buildExerciseItem('Remada baixa', false),
+          _buildExerciseItem('Puxador à frente pega larga em máq. 5 estações', false),
+          _buildExerciseItem('Remo com halteres', false),
+          _buildExerciseItem('Puxada à coxa', false),
+          _buildExerciseItem('Bíceps Scott com barra livre', false),
+          _buildExerciseItem('Bíceps curl no puxador - pega supinada', false),
+        ];
+      case 'Plano C':
+        return [
+          _buildExerciseItem('Bicicleta Vertical', true),
+          _buildExerciseItem('Agachamento com barra livre', false),
+          _buildExerciseItem('Lunge com halteres', false),
+          _buildExerciseItem('Extensões na máquina', false),
+          _buildExerciseItem('Levantamento terra', false),
+          _buildExerciseItem('Abdução na máquina', false),
+          _buildExerciseItem('Adução na máquina', false),
+          _buildExerciseItem('Flexão na máquina deitado', false),
+        ];
+      default:
+        return [];
+    }
   }
 
   Widget _buildExerciseItem(String title, bool isActive) {
@@ -150,4 +241,3 @@ class _planotreinoPageState extends State<planotreinoPage> {
     );
   }
 }
-

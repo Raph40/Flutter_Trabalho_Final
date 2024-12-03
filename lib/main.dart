@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:trabalho_final/definicoes.dart';
+import 'package:trabalho_final/metas.dart';
 import 'package:trabalho_final/notificacoes.dart';
 import 'package:trabalho_final/planotreino.dart';
 import 'package:trabalho_final/questinario.dart';
@@ -157,10 +158,10 @@ class _GymScreenState extends State<GymScreen> {
             MaterialPageRoute(builder: (context) => questionarioPage()),
           );
         } else if (label == 'Metas') {
-          /*Navigator.push(
+          Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => cidadaniaPage()),
-          );*/
+            MaterialPageRoute(builder: (context) => metasPage()),
+          );
         } else if (label == 'Reservas') {
           /*Navigator.push(
             context,

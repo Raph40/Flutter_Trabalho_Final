@@ -51,19 +51,24 @@ class _questionarioPageState extends State<questionarioPage> {
           ),
         ),
       ),
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white, // Cor de fundo do container
-            borderRadius: BorderRadius.circular(10), // Bordas arredondadas
+      body: Container(
+        padding: EdgeInsets.all(16), // Espaçamento interno
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.grey, // Cor da linha
+              width: 1.0, // Espessura da linha para maior visibilidade
+            ),
           ),
-          padding: const EdgeInsets.all(16), // Espaçamento interno
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center, // Centraliza verticalmente os itens
+          children: [
+            Expanded(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                mainAxisSize: MainAxisSize.min, // Garante que a coluna use apenas o espaço necessário
+                children: [
                   Text(
                     'Questionário Motivacional',
                     style: TextStyle(
@@ -71,7 +76,7 @@ class _questionarioPageState extends State<questionarioPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  SizedBox(height: 4), // Espaçamento entre os textos
                   Text(
                     '2024-04-11   06:31',
                     style: TextStyle(
@@ -81,14 +86,14 @@ class _questionarioPageState extends State<questionarioPage> {
                   ),
                 ],
               ),
-              IconButton(
-                icon: const Icon(Icons.more_vert),
-                onPressed: () {
-                  // Ação ao clicar no botão de opções
-                },
-              ),
-            ],
-          ),
+            ),
+            SizedBox(width: 8), // Espaçamento entre o texto e o ícone
+            Icon(
+              Icons.car_rental, // Ícone
+              color: Colors.grey, // Cor do ícone
+              size: 24, // Tamanho do ícone
+            ),
+          ],
         ),
       ),
     );

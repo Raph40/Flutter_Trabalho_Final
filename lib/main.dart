@@ -151,7 +151,7 @@ class _GymScreenState extends State<GymScreen> {
             context,
             MaterialPageRoute(builder: (context) => planotreinoPage()),
           );
-        } else if (label == 'Questionário') {
+        } else if (label == 'Questionários') {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => questionarioPage()),

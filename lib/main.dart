@@ -3,6 +3,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:trabalho_final/definicoes.dart';
 import 'package:trabalho_final/notificacoes.dart';
 import 'package:trabalho_final/planotreino.dart';
+import 'package:trabalho_final/questinario.dart';
 import 'partilhar.dart';
 import 'agenda.dart';
 
@@ -151,10 +152,10 @@ class _GymScreenState extends State<GymScreen> {
             MaterialPageRoute(builder: (context) => planotreinoPage()),
           );
         } else if (label == 'Questionário') {
-          /*Navigator.push(
+          Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => bibliotecaPage()),
-          );*/
+            MaterialPageRoute(builder: (context) => questionarioPage()),
+          );
         } else if (label == 'Metas') {
           /*Navigator.push(
             context,

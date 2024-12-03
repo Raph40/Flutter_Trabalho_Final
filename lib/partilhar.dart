@@ -27,12 +27,12 @@ class PartilharPage extends StatelessWidget {
             Center(
               child: Image.network(
                 'https://media.istockphoto.com/id/886500564/pt/foto/going-to-take-a-before-and-after-training-photo.jpg?s=612x612&w=0&k=20&c=YBq-3H1UsNaf0tVCUVSSApgeLypynnV6GckYKut6Y9Q=',
-                height: 200,
+                height: 180,
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),
             ),
-            SizedBox(height: 24),
+            SizedBox(height: 20),
 
             // Texto explicativo
             Text(
@@ -40,22 +40,22 @@ class PartilharPage extends StatelessWidget {
               style: TextStyle(fontSize: 16, color: Colors.black54),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 24),
+            SizedBox(height: 20),
 
             // Linha de separação no topo
-            Divider(color: Colors.grey[300], height: 20),
+            Divider(color: Colors.grey[300], height: 10),
 
             // Botões centralizados com linha de separação
             _buildShareOption(MdiIcons.messageTextOutline, 'Mensagem', () => _shareViaMessage(context)),
-            Divider(color: Colors.grey[300], height: 20), // Linha de separação
+            Divider(color: Colors.grey[300], height: 10), // Linha de separação
             _buildShareOption(MdiIcons.whatsapp, 'Whatsapp', () => _shareViaWhatsapp()),
-            Divider(color: Colors.grey[300], height: 20),
+            Divider(color: Colors.grey[300], height: 10),
             _buildShareOption(MdiIcons.emailOutline, 'Email', () => _shareViaEmail()),
-            Divider(color: Colors.grey[300], height: 20),
+            Divider(color: Colors.grey[300], height: 10),
             _buildShareOption(MdiIcons.linkVariant, 'Copiar Link', () => _copyLinkToClipboard()),
 
             // Linha de separação no final
-            Divider(color: Colors.grey[300], height: 20),
+            Divider(color: Colors.grey[300], height: 10),
           ],
         ),
       ),

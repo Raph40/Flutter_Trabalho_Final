@@ -106,7 +106,7 @@ class _notificacoesPageState extends State<notificacoesPage> {
                   },
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 300),
-                    width: _isExpanded ? 330.0 : 75.0, // Largura depende do estado expandido
+                    width: _isExpanded ? 215.0 : 75.0, // Largura depende do estado expandido
                     height: 40.0, // Altura fixa
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(254, 247, 255, 1.0), // Cor de fundo
@@ -132,7 +132,7 @@ class _notificacoesPageState extends State<notificacoesPage> {
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.symmetric(
                                   horizontal: 8,
-                                  vertical: 10,
+                                  vertical: 6.5,
                                 ),
                               ),
                               style: TextStyle(

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "750508487091",
+    "project_id": "projetofinalginasio",
+    "storage_bucket": "projetofinalginasio.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750508487091:android:da7dedff529d2a99c3dbc6",
+        "android_client_info": {
+          "package_name": "com.example.trabalho_final"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2RzVWfooP7b5J3Zlu0kXHT3LgZXKxhcs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

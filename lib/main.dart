@@ -7,6 +7,7 @@ import 'package:trabalho_final/planotreino.dart';
 import 'package:trabalho_final/questinario.dart';
 import 'partilhar.dart';
 import 'agenda.dart';
+import 'login.dart';
 
 void main() {
   runApp(MyGymApp());
@@ -70,9 +71,17 @@ class _GymScreenState extends State<GymScreen> {
               children: [
                 Row(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.grey[300],
-                      child: Icon(Icons.person, color: Colors.black),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginPage()),
+                        );
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: Colors.grey[300],
+                        child: Icon(Icons.person, color: Colors.black),
+                      ),
                     ),
                     SizedBox(width: 12),
                     Column(

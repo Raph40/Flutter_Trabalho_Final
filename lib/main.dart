@@ -185,7 +185,6 @@ class _GymScreenState extends State<GymScreen> {
   }
 
   // Função para criar os ícones do BottomAppBar
-  // Função para criar os ícones do BottomAppBar
   Widget _buildBottomIcon(IconData icon, int index) {
     return IconButton(
       icon: Icon(
@@ -212,13 +211,24 @@ class _GymScreenState extends State<GymScreen> {
 
   // Função para criar os itens da GridView
   // Função para criar os itens da GridView
+  // Função para criar os itens da GridView
   Widget _buildGridItem(IconData icon, String label) {
     return GestureDetector(
       onTap: () {
         final User? user = FirebaseAuth.instance.currentUser;
 
+        // Se o item for "Preçário", permite acessar mesmo sem login
+        if (label == 'Preçário') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => precarioPage()),
+          );
+          return;
+        }
+
+        // Verificação de login para outros itens (exceto Preçário)
         if (user == null && label != 'Definições' && label != 'Partilhar') {
-          // Exibir mensagem se o user não estiver logado e tentar acessar páginas restritas
+          // Exibir mensagem se o usuário não estiver logado e tentar acessar páginas restritas
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Tem de iniciar sessão primeiro')),
           );
@@ -243,11 +253,6 @@ class _GymScreenState extends State<GymScreen> {
           );
         } else if (label == 'Reservas') {
           // Exemplo de redirecionamento futuro
-        } else if (label == 'Preçário') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => precarioPage()),
-          );
         } else if (label == 'Avaliação Física') {
           // Exemplo de redirecionamento futuro
         } else if (label == 'Definições') {
@@ -282,6 +287,7 @@ class _GymScreenState extends State<GymScreen> {
       ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

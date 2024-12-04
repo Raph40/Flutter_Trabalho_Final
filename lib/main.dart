@@ -78,7 +78,7 @@ class _GymScreenState extends State<GymScreen> {
       case 1:
         return AgendaPage(); // Tela de Agenda
       case 2:
-        return notificacoesPage();
+        return NotificacoesPage();
       case 3:
         return PartilharPage(); // Tela de Partilhar
       default:

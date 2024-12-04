@@ -1,67 +1,72 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'main.dart';
-import 'registo.dart';
+import 'package:flutter/material.dart';
+import 'login.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+
   bool _isLoading = false;
 
-  Future<void> _loginUser() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      // Realiza o login no Firebase Authentication.
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-
-      // Obtem o UID do usuário logado.
-      String uid = userCredential.user!.uid;
-
-      // Verifica se o usuário existe na coleção 'users' no Firestore.
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
-
-      if (userDoc.exists) {
-        // Se o usuário existir, obtenha os dados.
-        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login bem-sucedido! Bem-vindo, ${userData['name']}')),
-        );
-
-        // Navega para a tela principal (ajuste o widget MainPage ou outro que desejar).
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => MyGymApp()),
-        );
-      } else {
-        // Se o usuário não existir na coleção 'users'.
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Usuário não encontrado no banco de dados.')),
-        );
-      }
-    } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? 'Erro ao fazer login')),
-      );
-    } finally {
+  // Função para registrar o usuário
+  Future<void> _registerUser() async {
+    if (_formKey.currentState?.validate() ?? false) {
       setState(() {
-        _isLoading = false;
+        _isLoading = true;
       });
+
+      try {
+        // Criação do user no Firebase Authentication
+        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
+
+        // Obter o UID do user recém-criado
+        String uid = userCredential.user!.uid;
+
+        // Obter o último número de sócio registrado para garantir que o próximo número seja único
+        DocumentSnapshot lastMemberDoc = await FirebaseFirestore.instance.collection('members').doc('last_member').get();
+
+        int numSocio = 4; // Padrão para o primeiro membro, caso não haja nenhum
+        if (lastMemberDoc.exists) {
+          numSocio = lastMemberDoc['num_socio'] + 1; // Incrementa o número de sócio
+        }
+
+        // Atualiza o documento "last_member" com o novo número de sócio
+        await FirebaseFirestore.instance.collection('members').doc('last_member').set({
+          'num_socio': numSocio,
+        });
+
+        // Criação de um documento na coleção 'users' no Firestore
+        await FirebaseFirestore.instance.collection('users').doc(uid).set({
+          'email': _emailController.text,
+          'name': _nameController.text,
+          'num_socio': numSocio,  // Adiciona o número de sócio ao documento
+        });
+
+        // Sucesso: pode navegar para outra página ou mostrar uma mensagem
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Utilizador registrado com sucesso! Número de sócio: $numSocio')));
+
+        // Opcionalmente, redirecionar para a página de login ou home
+        // Navigator.pushReplacementNamed(context, '/home');
+
+      } catch (e) {
+        // Se houver erro, mostrar uma mensagem
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Erro: $e')));
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -85,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Bem-vindo/a!',
+                      'Crie sua conta',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -94,13 +99,32 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      'Login',
+                      'Registrar',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey[600],
                       ),
                     ),
                     SizedBox(height: 32),
+                    // Campo Nome
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                        labelText: 'Nome',
+                        prefixIcon: Icon(Icons.person_outline),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira seu nome';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 16),
+                    // Campo E-mail
                     TextFormField(
                       controller: _emailController,
                       decoration: InputDecoration(
@@ -122,6 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                     SizedBox(height: 16),
+                    // Campo Senha
                     TextFormField(
                       controller: _passwordController,
                       decoration: InputDecoration(
@@ -140,10 +165,11 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                     SizedBox(height: 32),
+                    // Botão de Registro
                     _isLoading
                         ? CircularProgressIndicator()
                         : ElevatedButton(
-                      onPressed: _loginUser,
+                      onPressed: _registerUser,
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
                         shape: RoundedRectangleBorder(
@@ -152,20 +178,21 @@ class _LoginPageState extends State<LoginPage> {
                         backgroundColor: Colors.red[900],
                       ),
                       child: Text(
-                        'Login',
+                        'Registrar',
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ),
                     SizedBox(height: 16),
+                    // Link para página de login
                     TextButton(
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => RegisterPage()),
+                          MaterialPageRoute(builder: (context) => LoginPage()),
                         );
                       },
                       child: Text(
-                        'Não tem uma conta? Registe-se',
+                        'Já tem uma conta? Faça login',
                         style: TextStyle(
                           color: Colors.red[900],
                           fontSize: 14,
@@ -186,6 +213,7 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _nameController.dispose();
     super.dispose();
   }
 }

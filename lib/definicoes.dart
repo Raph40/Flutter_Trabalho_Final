@@ -5,6 +5,9 @@ import 'package:colorful_iconify_flutter/icons/emojione.dart';
 import 'package:trabalho_final/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 class definicoes extends StatelessWidget {
   const definicoes({super.key});
@@ -32,27 +35,27 @@ class _definicoesPageState extends State<definicoesPage> {
   String _selectedLanguage = 'Português';
   String _activeIcon = "portugal";
 
-  /*FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();*/
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
 
   @override
-  /*void initState() {
+  void initState() {
     super.initState();
     tz.initializeTimeZones(); // Initialize timezones
     _initializeNotifications();
-  }*/
+  }
 
   // Função para inicializar o FlutterLocalNotificationsPlugin
-  /*void _initializeNotifications() async {
+  void _initializeNotifications() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
     AndroidInitializationSettings('app_icon');
     const InitializationSettings initializationSettings =
     InitializationSettings(android: initializationSettingsAndroid);
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  }*/
+  }
 
   // Função para agendar uma notificação
-  /*Future<void> _scheduleNotification() async {
+  Future<void> _scheduleNotification() async {
     final tz.TZDateTime scheduledDate = tz.TZDateTime.now(tz.local).add(Duration(seconds: 5)); // Use TZDateTime
     await flutterLocalNotificationsPlugin.zonedSchedule(
       0,
@@ -67,14 +70,14 @@ class _definicoesPageState extends State<definicoesPage> {
           priority: Priority.high,
         ),
       ),
-      androidAllowWhileIdle: true,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
       UILocalNotificationDateInterpretation.absoluteTime,
     );
-  }*/
+  }
 
   // Função que será chamada quando o SwitchListTile for alterado
-  /*void _toggleNotifications(bool value) {
+  void _toggleNotifications(bool value) {
     setState(() {
       notificacoes = value;
     });
@@ -83,7 +86,7 @@ class _definicoesPageState extends State<definicoesPage> {
     } else {
       flutterLocalNotificationsPlugin.cancelAll(); // Cancelar todas as notificações
     }
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,13 +137,13 @@ class _definicoesPageState extends State<definicoesPage> {
                     subtitle: Text('Ligar e desligar as notificações.'),
                     value: notificacoes,
                     onChanged: (bool value) {
-                     // _toggleNotifications(value); // Controla as notificações
+                     _toggleNotifications(value); // Controla as notificações
                     },
                   ),
                   SwitchListTile(
                     activeTrackColor: Colors.red[700],
-                    title: Text('Login Automático'),
-                    subtitle: Text('Login automático quando entra na aplicação'),
+                    title: Text('Modo Light e Dark'),
+                    subtitle: Text('Tema Light e Dark para a aplicação.'),
                     value: login,
                     onChanged: (bool value) {
                       setState(() {

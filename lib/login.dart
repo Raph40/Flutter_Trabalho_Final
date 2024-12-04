@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'main.dart'; // Ajuste para o arquivo principal correto.
+import 'main.dart';
 
 class LoginPage extends StatefulWidget {
   @override

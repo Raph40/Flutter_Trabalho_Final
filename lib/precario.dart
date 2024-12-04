@@ -62,7 +62,6 @@ class precarioPage extends StatelessWidget {
                   'Planos de treino;',
                   'Código de entrada;',
                 ],
-                buttonLabel: 'Obter plano',
               ),
               SizedBox(height: 16),
               PricingCard(
@@ -72,7 +71,6 @@ class precarioPage extends StatelessWidget {
                   'Acesso ao ginásio;',
                   'Aulas de grupo;',
                 ],
-                buttonLabel: 'Obter plano',
               ),
               SizedBox(height: 16),
               PricingCard(
@@ -81,7 +79,20 @@ class precarioPage extends StatelessWidget {
                 details: [
                   'Acesso ao ginásio 10 vezes;',
                 ],
-                buttonLabel: 'Obter plano',
+              ),
+              SizedBox(height: 16),
+              // Texto adicional
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Text(
+                  "Para mais informações é favor perguntar na recepção.",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontStyle: FontStyle.italic,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ],
           ),
@@ -95,17 +106,18 @@ class PricingCard extends StatelessWidget {
   final String title;
   final String price;
   final List<String> details;
-  final String buttonLabel;
 
   PricingCard({
     required this.title,
     required this.price,
     required this.details,
-    required this.buttonLabel,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Obter o tamanho da tela
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -113,52 +125,40 @@ class PricingCard extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              price,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-              ),
-            ),
-            SizedBox(height: 8),
-            ...details.map((detail) => Text(
-              '• $detail',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 14,
-              ),
-            )),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // Ação do botão
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red[700],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+        child: Container(
+          width: screenWidth * 0.9, // Ajustar a largura da caixa para 90% da largura da tela
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              child: Center(
-                child: Text(buttonLabel, style: TextStyle(color: Colors.white),),
+              SizedBox(height: 8),
+              Text(
+                price,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: 8),
+              ...details.map((detail) => Text(
+                '• $detail',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                ),
+              )),
+              SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
   }
 }
-

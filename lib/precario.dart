@@ -36,7 +36,7 @@ class precarioPage extends StatelessWidget {
             elevation: 0,
             centerTitle: true,
             title: Text(
-              "Planos de treino",
+              "Preçário",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 18,

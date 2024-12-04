@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:trabalho_final/avaliacaofisica.dart';
 import 'package:trabalho_final/definicoes.dart';
-import 'package:trabalho_final/metas.dart';
+import 'package:trabalho_final/desafios.dart';
 import 'package:trabalho_final/notificacoes.dart';
 import 'package:trabalho_final/planotreino.dart';
 import 'package:trabalho_final/precario.dart';
@@ -174,7 +174,7 @@ class _GymScreenState extends State<GymScreen> {
               children: [
                 _buildGridItem(MdiIcons.armFlex, 'Plano de Treino'),
                 _buildGridItem(MdiIcons.commentQuestionOutline, 'Questionários'),
-                _buildGridItem(MdiIcons.bullseyeArrow, 'Metas'),
+                _buildGridItem(MdiIcons.bullseyeArrow, 'Desafios'),
                 _buildGridItem(MdiIcons.homeClockOutline, 'Horário'),
                 _buildGridItem(MdiIcons.currencyUsd, 'Preçário'),
                 _buildGridItem(MdiIcons.heart, 'Avaliação Física'),
@@ -255,10 +255,10 @@ class _GymScreenState extends State<GymScreen> {
             context,
             MaterialPageRoute(builder: (context) => questionarioPage()),
           );
-        } else if (label == 'Metas') {
+        } else if (label == 'Desafios') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => metasPage()),
+            MaterialPageRoute(builder: (context) => desafiosPage()),
           );
         } else if (label == 'Horário') {
           Navigator.push(

@@ -13,6 +13,7 @@ import 'firebase_options.dart';
 import 'partilhar.dart';
 import 'agenda.dart';
 import 'login.dart';
+import 'horario.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -173,7 +174,7 @@ class _GymScreenState extends State<GymScreen> {
                 _buildGridItem(MdiIcons.armFlex, 'Plano de Treino'),
                 _buildGridItem(MdiIcons.commentQuestionOutline, 'Questionários'),
                 _buildGridItem(MdiIcons.bullseyeArrow, 'Metas'),
-                _buildGridItem(MdiIcons.bookCheckOutline, 'Reservas'),
+                _buildGridItem(MdiIcons.homeClockOutline, 'Horário'),
                 _buildGridItem(MdiIcons.currencyUsd, 'Preçário'),
                 _buildGridItem(MdiIcons.heart, 'Avaliação Física'),
               ],
@@ -210,8 +211,6 @@ class _GymScreenState extends State<GymScreen> {
   }
 
   // Função para criar os itens da GridView
-  // Função para criar os itens da GridView
-  // Função para criar os itens da GridView
   Widget _buildGridItem(IconData icon, String label) {
     return GestureDetector(
       onTap: () {
@@ -222,6 +221,15 @@ class _GymScreenState extends State<GymScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => precarioPage()),
+          );
+          return;
+        }
+
+        // Se o item for "Horário", permite acessar mesmo sem login
+        if (label == 'Horário') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HorarioPage()),
           );
           return;
         }
@@ -251,8 +259,11 @@ class _GymScreenState extends State<GymScreen> {
             context,
             MaterialPageRoute(builder: (context) => metasPage()),
           );
-        } else if (label == 'Reservas') {
-          // Exemplo de redirecionamento futuro
+        } else if (label == 'Horário') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HorarioPage()),
+          );
         } else if (label == 'Avaliação Física') {
           // Exemplo de redirecionamento futuro
         } else if (label == 'Definições') {

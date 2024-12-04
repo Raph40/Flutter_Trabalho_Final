@@ -16,7 +16,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   bool _isLoading = false;
 
-  // Função para registrar o usuário
   Future<void> _registerUser() async {
     if (_formKey.currentState?.validate() ?? false) {
       setState(() {
@@ -24,43 +23,33 @@ class _RegisterPageState extends State<RegisterPage> {
       });
 
       try {
-        // Criação do user no Firebase Authentication
         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text,
           password: _passwordController.text,
         );
 
-        // Obter o UID do user recém-criado
         String uid = userCredential.user!.uid;
 
-        // Obter o último número de sócio registrado para garantir que o próximo número seja único
         DocumentSnapshot lastMemberDoc = await FirebaseFirestore.instance.collection('members').doc('last_member').get();
 
-        int numSocio = 4; // Padrão para o primeiro membro, caso não haja nenhum
+        int numSocio = 4;
         if (lastMemberDoc.exists) {
-          numSocio = lastMemberDoc['num_socio'] + 1; // Incrementa o número de sócio
+          numSocio = lastMemberDoc['num_socio'] + 1;
         }
 
-        // Atualiza o documento "last_member" com o novo número de sócio
         await FirebaseFirestore.instance.collection('members').doc('last_member').set({
           'num_socio': numSocio,
         });
 
-        // Criação de um documento na coleção 'users' no Firestore
         await FirebaseFirestore.instance.collection('users').doc(uid).set({
           'email': _emailController.text,
           'name': _nameController.text,
-          'num_socio': numSocio,  // Adiciona o número de sócio ao documento
+          'num_socio': numSocio,
         });
 
-        // Sucesso: pode navegar para outra página ou mostrar uma mensagem
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Utilizador registrado com sucesso! Número de sócio: $numSocio')));
-
-        // Opcionalmente, redirecionar para a página de login ou home
-        // Navigator.pushReplacementNamed(context, '/home');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Utilizador registado com sucesso! Número de sócio: $numSocio')));
 
       } catch (e) {
-        // Se houver erro, mostrar uma mensagem
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Erro: $e')));
       } finally {
         setState(() {
@@ -74,6 +63,19 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text(
+          'Registar',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: Center(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(16.0),
@@ -99,14 +101,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      'Registrar',
+                      'Registar',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey[600],
                       ),
                     ),
                     SizedBox(height: 32),
-                    // Campo Nome
                     TextFormField(
                       controller: _nameController,
                       decoration: InputDecoration(
@@ -124,7 +125,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                     ),
                     SizedBox(height: 16),
-                    // Campo E-mail
                     TextFormField(
                       controller: _emailController,
                       decoration: InputDecoration(
@@ -146,7 +146,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                     ),
                     SizedBox(height: 16),
-                    // Campo Senha
                     TextFormField(
                       controller: _passwordController,
                       decoration: InputDecoration(
@@ -165,7 +164,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                     ),
                     SizedBox(height: 32),
-                    // Botão de Registro
                     _isLoading
                         ? CircularProgressIndicator()
                         : ElevatedButton(
@@ -178,12 +176,11 @@ class _RegisterPageState extends State<RegisterPage> {
                         backgroundColor: Colors.red[900],
                       ),
                       child: Text(
-                        'Registrar',
+                        'Registar',
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ),
                     SizedBox(height: 16),
-                    // Link para página de login
                     TextButton(
                       onPressed: () {
                         Navigator.pushReplacement(

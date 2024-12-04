@@ -122,7 +122,7 @@ class _GymScreenState extends State<GymScreen> {
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Você já tem sessão iniciada!')),
+                            SnackBar(content: Text('Já tem sessão iniciada!')),
                           );
                         }
                       },

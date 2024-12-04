@@ -23,33 +23,27 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
-      // Realiza o login no Firebase Authentication.
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
 
-      // Obtem o UID do usuário logado.
       String uid = userCredential.user!.uid;
 
-      // Verifica se o usuário existe na coleção 'users' no Firestore.
       DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
       if (userDoc.exists) {
-        // Se o usuário existir, obtenha os dados.
         Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Login bem-sucedido! Bem-vindo, ${userData['name']}')),
         );
 
-        // Navega para a tela principal (ajuste o widget MainPage ou outro que desejar).
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => MyGymApp()),
         );
       } else {
-        // Se o usuário não existir na coleção 'users'.
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Usuário não encontrado no banco de dados.')),
         );
@@ -69,6 +63,19 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text(
+          'Login',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: Center(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(16.0),
@@ -153,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: Text(
                         'Login',
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                        style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(height: 16),

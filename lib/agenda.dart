@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class AgendaPage extends StatefulWidget {
   @override

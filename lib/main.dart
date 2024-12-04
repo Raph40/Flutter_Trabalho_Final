@@ -174,7 +174,7 @@ class _GymScreenState extends State<GymScreen> {
                 _buildGridItem(MdiIcons.commentQuestionOutline, 'Questionários'),
                 _buildGridItem(MdiIcons.bullseyeArrow, 'Metas'),
                 _buildGridItem(MdiIcons.bookCheckOutline, 'Reservas'),
-                _buildGridItem(MdiIcons.run, 'Preçário'),
+                _buildGridItem(MdiIcons.currencyUsd, 'Preçário'),
                 _buildGridItem(MdiIcons.heart, 'Avaliação Física'),
               ],
             ),

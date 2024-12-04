@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:colorful_iconify_flutter/icons/emojione.dart';
+import 'package:trabalho_final/main.dart';
 import 'package:url_launcher/url_launcher.dart';
-/*import 'package:flutter_local_notifications/flutter_local_notifications.dart';*/
-import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest.dart' as tz;
+import 'package:firebase_auth/firebase_auth.dart';
 
 class definicoes extends StatelessWidget {
   const definicoes({super.key});
@@ -366,7 +365,31 @@ class _definicoesPageState extends State<definicoesPage> {
                   ListTile(
                     title: Text('Terminar Sessão'),
                     trailing: Icon(Icons.logout),
-                    onTap: () {},
+                    onTap: () async {
+                      final User? user = FirebaseAuth.instance.currentUser; // Verifica se o usuário está autenticado
+
+                      if (user == null) {
+                        // Se não houver usuário logado, mostra um aviso
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Não tem sessão iniciada.')),
+                        );
+                      } else {
+                        // Se o usuário estiver logado, termina a sessão
+                        try {
+                          await FirebaseAuth.instance.signOut();
+                          // Redireciona para a tela de login e remove a pilha de navegação anterior
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => MyGymApp()),
+                                (route) => false,
+                          );
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Erro ao terminar sessão: $e')),
+                          );
+                        }
+                      }
+                    },
                   ),
                 ],
               ),

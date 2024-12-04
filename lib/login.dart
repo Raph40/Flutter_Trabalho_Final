@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'main.dart'; // Ajuste para o arquivo principal correto.
 
 class LoginPage extends StatefulWidget {
   @override
@@ -20,18 +22,40 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      // Realiza o login no Firebase Authentication.
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login successful!')),
-      );
 
-      Navigator.pushReplacementNamed(context, '/home');
+      // Obtem o UID do usuário logado.
+      String uid = userCredential.user!.uid;
+
+      // Verifica se o usuário existe na coleção 'users' no Firestore.
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+      if (userDoc.exists) {
+        // Se o usuário existir, obtenha os dados.
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login bem-sucedido! Bem-vindo, ${userData['name']}')),
+        );
+
+        // Navega para a tela principal (ajuste o widget MainPage ou outro que desejar).
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MyGymApp()),
+        );
+      } else {
+        // Se o usuário não existir na coleção 'users'.
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Usuário não encontrado no banco de dados.')),
+        );
+      }
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? 'Error occurred')),
+        SnackBar(content: Text(e.message ?? 'Erro ao fazer login')),
       );
     } finally {
       setState(() {
@@ -88,10 +112,10 @@ class _LoginPageState extends State<LoginPage> {
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
+                          return 'Por favor, insira seu email';
                         }
                         if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                          return 'Enter a valid email address';
+                          return 'Insira um endereço de email válido';
                         }
                         return null;
                       },
@@ -100,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                     TextFormField(
                       controller: _passwordController,
                       decoration: InputDecoration(
-                        labelText: 'Password',
+                        labelText: 'Senha',
                         prefixIcon: Icon(Icons.lock_outline),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -109,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                       obscureText: true,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
+                          return 'Por favor, insira sua senha';
                         }
                         return null;
                       },
@@ -120,8 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                         : ElevatedButton(
                       onPressed: _loginUser,
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 40, vertical: 14),
+                        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -129,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: Text(
                         'Login',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ),
                     SizedBox(height: 16),
@@ -138,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.pushNamed(context, '/register');
                       },
                       child: Text(
-                        'Don’t have an account? Register',
+                        'Não tem uma conta? Registe-se',
                         style: TextStyle(
                           color: Colors.red[900],
                           fontSize: 14,

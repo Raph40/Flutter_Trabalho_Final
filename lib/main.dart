@@ -5,11 +5,19 @@ import 'package:trabalho_final/metas.dart';
 import 'package:trabalho_final/notificacoes.dart';
 import 'package:trabalho_final/planotreino.dart';
 import 'package:trabalho_final/questinario.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'firebase_options.dart';
 import 'partilhar.dart';
 import 'agenda.dart';
 import 'login.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyGymApp());
 }
 
@@ -30,6 +38,38 @@ class GymScreen extends StatefulWidget {
 
 class _GymScreenState extends State<GymScreen> {
   int _selectedIndex = 0; // Índice do item selecionado no BottomAppBar
+  String _userName = 'Utilizador'; // Nome do usuário inicial
+  String _numSocio = '---'; // Número de sócio inicial
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData(); // Buscar dados do usuário
+  }
+
+  // Função para buscar o nome e número de sócio do usuário logado
+  Future<void> _fetchUserData() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final uid = user.uid;
+
+      try {
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(uid)
+            .get();
+
+        if (userDoc.exists) {
+          setState(() {
+            _userName = userDoc['name'] ?? 'Utilizador';
+            _numSocio = userDoc['num_socio']?.toString() ?? '---';
+          });
+        }
+      } catch (e) {
+        print('Erro ao buscar dados do usuário: $e');
+      }
+    }
+  }
 
   // Função que retorna o widget para a tela de acordo com o índice
   Widget _getCurrentScreen() {
@@ -49,9 +89,8 @@ class _GymScreenState extends State<GymScreen> {
   Widget _buildHomeScreen() {
     return Column(
       children: [
-        // Retângulo arredondado envolvendo a AppBar
         Padding(
-          padding: const EdgeInsets.only(top:50, right: 16, left: 16, bottom: 16),
+          padding: const EdgeInsets.only(top: 50, right: 16, left: 16, bottom: 16),
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -73,10 +112,16 @@ class _GymScreenState extends State<GymScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
-                        );
+                        if (FirebaseAuth.instance.currentUser == null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => LoginPage()),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Você já tem sessão iniciada!')),
+                          );
+                        }
                       },
                       child: CircleAvatar(
                         backgroundColor: Colors.grey[300],
@@ -88,11 +133,14 @@ class _GymScreenState extends State<GymScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Utilizador',
-                          style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                          _userName, // Exibe o nome do usuário
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          'Sócio nº ---',
+                          'Sócio nº $_numSocio', // Exibe o número de sócio
                           style: TextStyle(color: Colors.grey, fontSize: 12),
                         ),
                       ],
@@ -112,8 +160,6 @@ class _GymScreenState extends State<GymScreen> {
             ),
           ),
         ),
-
-        // GridView com 6 botões
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -138,24 +184,47 @@ class _GymScreenState extends State<GymScreen> {
   }
 
   // Função para criar os ícones do BottomAppBar
+  // Função para criar os ícones do BottomAppBar
   Widget _buildBottomIcon(IconData icon, int index) {
     return IconButton(
       icon: Icon(
         icon,
-        color: _selectedIndex == index ? Colors.black : Colors.grey[300], // Cor do ícone selecionado
+        color: _selectedIndex == index ? Colors.black : Colors.grey[300],
       ),
       onPressed: () {
+        final User? user = FirebaseAuth.instance.currentUser;
+
+        // Verificação de login para impedir acesso a Agenda e Notificações
+        if (user == null && (index == 1 || index == 2)) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Tem de iniciar sessão primeiro')),
+          );
+          return;
+        }
+
         setState(() {
-          _selectedIndex = index; // Atualiza o índice do BottomAppBar
+          _selectedIndex = index;
         });
       },
     );
   }
 
   // Função para criar os itens da GridView
+  // Função para criar os itens da GridView
   Widget _buildGridItem(IconData icon, String label) {
     return GestureDetector(
       onTap: () {
+        final User? user = FirebaseAuth.instance.currentUser;
+
+        if (user == null && label != 'Definições' && label != 'Partilhar') {
+          // Exibir mensagem se o user não estiver logado e tentar acessar páginas restritas
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Tem de iniciar sessão primeiro')),
+          );
+          return;
+        }
+
+        // Navegar para a página correspondente se o usuário estiver logado ou for permitido
         if (label == 'Plano de Treino') {
           Navigator.push(
             context,
@@ -172,20 +241,21 @@ class _GymScreenState extends State<GymScreen> {
             MaterialPageRoute(builder: (context) => metasPage()),
           );
         } else if (label == 'Reservas') {
-          /*Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => educacaoPage()),
-          );*/
+          // Exemplo de redirecionamento futuro
         } else if (label == 'Serviços Extra') {
-          /*Navigator.push(
+          // Exemplo de redirecionamento futuro
+        } else if (label == 'Avaliação Física') {
+          // Exemplo de redirecionamento futuro
+        } else if (label == 'Definições') {
+          Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => piscinasPage()),
-          );*/
-        } else if (label == 'Avaliação Fisica') {
-          /*Navigator.push(
+            MaterialPageRoute(builder: (context) => definicoesPage()),
+          );
+        } else if (label == 'Partilhar') {
+          Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => piscinasPage()),
-          );*/
+            MaterialPageRoute(builder: (context) => PartilharPage()),
+          );
         }
       },
       child: Container(
@@ -212,9 +282,7 @@ class _GymScreenState extends State<GymScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _getCurrentScreen(), // Chama a função que retorna a tela correspondente
-
-      // BottomAppBar com ícones
+      body: _getCurrentScreen(),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         elevation: 10,
@@ -222,9 +290,9 @@ class _GymScreenState extends State<GymScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _buildBottomIcon(Icons.home_outlined, 0),
-            _buildBottomIcon(Icons.calendar_today_outlined, 1), // Agora a tela de agenda
+            _buildBottomIcon(Icons.calendar_today_outlined, 1),
             _buildBottomIcon(Icons.notifications_outlined, 2),
-            _buildBottomIcon(MdiIcons.shareVariantOutline, 3), // Ícone Partilhar
+            _buildBottomIcon(MdiIcons.shareVariantOutline, 3),
           ],
         ),
       ),

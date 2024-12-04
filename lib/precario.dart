@@ -36,7 +36,7 @@ class precarioPage extends StatelessWidget {
             elevation: 0,
             centerTitle: true,
             title: Text(
-              "Questionário",
+              "Planos de treino",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 18,
@@ -44,6 +44,115 @@ class precarioPage extends StatelessWidget {
               ),
             ),
           ),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            PricingCard(
+              title: 'Mensalidade',
+              price: '29.99€',
+              details: [
+                'Sem fidelização',
+                'Acesso ao gym',
+                'Aulas de grupo',
+                'Avaliação física e planos de treino',
+                'Código de entrada',
+              ],
+              buttonLabel: 'Obter Mensalidade',
+            ),
+            SizedBox(height: 16),
+            PricingCard(
+              title: 'Diária',
+              price: '5.99€',
+              details: [
+                'Acesso ao gym',
+                'Aulas de grupo',
+              ],
+              buttonLabel: 'Obter Diário',
+            ),
+            SizedBox(height: 16),
+            PricingCard(
+              title: 'Cartão 10 Acessos',
+              price: '29.99€',
+              details: [
+                'Acesso ao gym 10 vezes',
+              ],
+              buttonLabel: 'Obter Cartão',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PricingCard extends StatelessWidget {
+  final String title;
+  final String price;
+  final List<String> details;
+  final String buttonLabel;
+
+  PricingCard({
+    required this.title,
+    required this.price,
+    required this.details,
+    required this.buttonLabel,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              price,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+              ),
+            ),
+            SizedBox(height: 8),
+            ...details.map((detail) => Text(
+              '• $detail',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+              ),
+            )),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                // Ação do botão
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red[700],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Center(
+                child: Text(buttonLabel, style: TextStyle(color: Colors.white),),
+              ),
+            ),
+          ],
         ),
       ),
     );

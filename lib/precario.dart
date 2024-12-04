@@ -46,43 +46,45 @@ class precarioPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            PricingCard(
-              title: 'Mensalidade',
-              price: '29.99€',
-              details: [
-                'Sem fidelização;',
-                'Acesso ao ginásio;',
-                'Aulas de grupo;',
-                'Avaliação física;',
-                'Planos de treino;',
-                'Código de entrada;',
-              ],
-              buttonLabel: 'Obter plano',
-            ),
-            SizedBox(height: 16),
-            PricingCard(
-              title: 'Diária',
-              price: '5.99€',
-              details: [
-                'Acesso ao ginásio;',
-                'Aulas de grupo;',
-              ],
-              buttonLabel: 'Obter plano',
-            ),
-            SizedBox(height: 16),
-            PricingCard(
-              title: 'Cartão 10 Acessos',
-              price: '29.99€',
-              details: [
-                'Acesso ao ginásio 10 vezes;',
-              ],
-              buttonLabel: 'Obter plano',
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              PricingCard(
+                title: 'Mensalidade',
+                price: '29.99€',
+                details: [
+                  'Sem fidelização;',
+                  'Acesso ao ginásio;',
+                  'Aulas de grupo;',
+                  'Avaliação física;',
+                  'Planos de treino;',
+                  'Código de entrada;',
+                ],
+                buttonLabel: 'Obter plano',
+              ),
+              SizedBox(height: 16),
+              PricingCard(
+                title: 'Diária',
+                price: '5.99€',
+                details: [
+                  'Acesso ao ginásio;',
+                  'Aulas de grupo;',
+                ],
+                buttonLabel: 'Obter plano',
+              ),
+              SizedBox(height: 16),
+              PricingCard(
+                title: 'Cartão 10 Acessos',
+                price: '29.99€',
+                details: [
+                  'Acesso ao ginásio 10 vezes;',
+                ],
+                buttonLabel: 'Obter plano',
+              ),
+            ],
+          ),
         ),
       ),
     );

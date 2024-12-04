@@ -6,7 +6,16 @@ class HorarioPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text('Horário do Ginásio'),
+        title: Center(
+          child: Text(
+            "Horário do Ginásio",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
         backgroundColor: Colors.white,
       ),
       body: Center(

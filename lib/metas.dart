@@ -78,29 +78,6 @@ class _metasPageState extends State<metasPage> {
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ToggleButtons(
-                              isSelected: [true, false],
-                              onPressed: (index) {},
-                              borderRadius: BorderRadius.circular(20),
-                              selectedColor: Colors.white,
-                              fillColor: Colors.black,
-                              color: Colors.grey,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                  child: Text('Profissional'),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                  child: Text('Pessoal'),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
                         SizedBox(height: 40),
                         Text(
                           'Não tem metas definidas!',

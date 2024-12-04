@@ -4,6 +4,7 @@ import 'package:trabalho_final/definicoes.dart';
 import 'package:trabalho_final/metas.dart';
 import 'package:trabalho_final/notificacoes.dart';
 import 'package:trabalho_final/planotreino.dart';
+import 'package:trabalho_final/precario.dart';
 import 'package:trabalho_final/questinario.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -173,7 +174,7 @@ class _GymScreenState extends State<GymScreen> {
                 _buildGridItem(MdiIcons.commentQuestionOutline, 'Questionários'),
                 _buildGridItem(MdiIcons.bullseyeArrow, 'Metas'),
                 _buildGridItem(MdiIcons.bookCheckOutline, 'Reservas'),
-                _buildGridItem(MdiIcons.run, 'Serviços Extra'),
+                _buildGridItem(MdiIcons.run, 'Preçário'),
                 _buildGridItem(MdiIcons.heart, 'Avaliação Física'),
               ],
             ),
@@ -242,8 +243,11 @@ class _GymScreenState extends State<GymScreen> {
           );
         } else if (label == 'Reservas') {
           // Exemplo de redirecionamento futuro
-        } else if (label == 'Serviços Extra') {
-          // Exemplo de redirecionamento futuro
+        } else if (label == 'Preçário') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => precarioPage()),
+          );
         } else if (label == 'Avaliação Física') {
           // Exemplo de redirecionamento futuro
         } else if (label == 'Definições') {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:trabalho_final/avaliacaofisica.dart';
 import 'package:trabalho_final/definicoes.dart';
 import 'package:trabalho_final/metas.dart';
 import 'package:trabalho_final/notificacoes.dart';
@@ -265,7 +266,10 @@ class _GymScreenState extends State<GymScreen> {
             MaterialPageRoute(builder: (context) => HorarioPage()),
           );
         } else if (label == 'Avaliação Física') {
-          // Exemplo de redirecionamento futuro
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => avaliacaofisicaPage()),
+          );
         } else if (label == 'Definições') {
           Navigator.push(
             context,

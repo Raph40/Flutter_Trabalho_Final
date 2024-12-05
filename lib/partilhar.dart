@@ -9,15 +9,35 @@ class PartilharPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Partilhar App',
-          style: TextStyle(color: Colors.black),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                blurRadius: 6,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            centerTitle: true,
+            title: Text(
+              "Partilhar",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            automaticallyImplyLeading: true, // Ativa a seta de retorno
+            iconTheme: IconThemeData(color: Colors.black),
+          ),
         ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 1,
-        automaticallyImplyLeading: false, // Remove a seta de retorno
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -74,13 +94,9 @@ class PartilharPage extends StatelessWidget {
           style: TextStyle(color: Colors.grey), // Cor cinza para o texto
         ),
         style: ButtonStyle(
-          // Remove a cor de fundo
           backgroundColor: MaterialStateProperty.all(Colors.transparent),
-          // Remove o efeito de hover
           overlayColor: MaterialStateProperty.all(Colors.transparent),
-          // Remove o splash
           splashFactory: NoSplash.splashFactory,
-          // Define a cor do texto no normal
           foregroundColor: MaterialStateProperty.all(Colors.black),
         ),
       ),

@@ -7,11 +7,9 @@ class AgendaPage extends StatefulWidget {
 }
 
 class _AgendaPageState extends State<AgendaPage> {
-  late Map<DateTime, List<String>> _events; // Mapa de eventos por data
-  late DateTime _selectedDay;  // Data selecionada
-  late DateTime _focusedDay;   // Dia em foco (para navegação no calendário)
-
-  // Definindo o primeiro e o último dia possível para o calendário
+  late Map<DateTime, List<String>> _events;
+  late DateTime _selectedDay;
+  late DateTime _focusedDay;
   late DateTime _firstDay;
   late DateTime _lastDay;
 
@@ -20,14 +18,9 @@ class _AgendaPageState extends State<AgendaPage> {
     super.initState();
     _selectedDay = DateTime.now();
     _focusedDay = DateTime.now();
-
-    // Inicializa o primeiro e último dia do calendário
     _firstDay = DateTime.utc(2024, 1, 1);
     _lastDay = DateTime.utc(2025, 12, 31);
 
-    _events = {}; // Inicializa o mapa de eventos vazio
-
-    // Exemplo de como adicionar eventos
     _events = {
       DateTime.utc(2024, 11, 4): ['Entrada no clube às 19:00'],
       DateTime.utc(2024, 11, 29): ['Aula de Yoga às 10:00'],
@@ -41,51 +34,88 @@ class _AgendaPageState extends State<AgendaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Agenda', style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 1,
+        title: const Text(
+          'Agenda',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         automaticallyImplyLeading: false, // Remove a seta de retorno
       ),
-      body: Column(
-        children: [
-          // Exibe o calendário
-          TableCalendar(
-            firstDay: _firstDay, // Define o primeiro dia
-            lastDay: _lastDay, // Define o último dia
-            focusedDay: _focusedDay,
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            onDaySelected: (selectedDay, focusedDay) {
-              setState(() {
-                _selectedDay = selectedDay;
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Calendário com eventos
+            TableCalendar(
+              firstDay: _firstDay,
+              lastDay: _lastDay,
+              focusedDay: _focusedDay,
+              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+              onDaySelected: (selectedDay, focusedDay) {
+                setState(() {
+                  _selectedDay = selectedDay;
+                  _focusedDay = focusedDay;
+                });
+              },
+              onPageChanged: (focusedDay) {
                 _focusedDay = focusedDay;
-              });
-            },
-            onPageChanged: (focusedDay) {
-              _focusedDay = focusedDay;
-            },
-            eventLoader: _getEventsForDay,
-            headerStyle: HeaderStyle(
-              formatButtonVisible: false,
-              titleCentered: true,
-              leftChevronIcon: Icon(Icons.chevron_left, color: Colors.black),
-              rightChevronIcon: Icon(Icons.chevron_right, color: Colors.black),
-            ),
-          ),
-
-          // Exibe os eventos do dia selecionado
-          const SizedBox(height: 24),
-          Expanded(
-            child: ListView(
-              children: _getEventsForDay(_selectedDay).map(
-                    (event) => ListTile(
-                  title: Text(event),
-                  leading: Icon(Icons.event, color: Colors.red),
+              },
+              eventLoader: _getEventsForDay,
+              headerStyle: HeaderStyle(
+                formatButtonVisible: false,
+                titleCentered: true,
+                leftChevronIcon: Icon(Icons.chevron_left, color: Colors.black),
+                rightChevronIcon: Icon(Icons.chevron_right, color: Colors.black),
+              ),
+              calendarStyle: CalendarStyle(
+                todayDecoration: BoxDecoration(
+                  color: Colors.grey,
+                  shape: BoxShape.circle,
                 ),
-              ).toList(),
+                selectedDecoration: BoxDecoration(
+                  color: Colors.red[500],
+                  shape: BoxShape.circle,
+                ),
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 20),
+
+            // Exibe os eventos do dia selecionado
+            Expanded(
+              child: _getEventsForDay(_selectedDay).isEmpty
+                  ? Center(
+                child: Text(
+                  'Sem eventos para o dia selecionado',
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+              )
+                  : ListView.separated(
+                itemCount: _getEventsForDay(_selectedDay).length,
+                separatorBuilder: (context, index) => Divider(
+                  color: Colors.grey[300],
+                  height: 10,
+                ),
+                itemBuilder: (context, index) {
+                  String event = _getEventsForDay(_selectedDay)[index];
+                  return ListTile(
+                    leading: Icon(Icons.event, color: Colors.red),
+                    title: Text(
+                      event,
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -32,6 +32,8 @@ class _AgendaPageState extends State<AgendaPage> {
       DateTime.utc(2024, 11, 4): ['Entrada no clube às 19:00'],
       DateTime.utc(2024, 11, 29): ['Aula de Yoga às 10:00'],
       DateTime.utc(2024, 11, 30): ['Aula de Pilates às 14:00'],
+      DateTime.utc(2024, 12, 30): ['Aula de Step às 14:00'],
+      DateTime.utc(2024, 12, 12): ['Entrada no clube às 19:00'],
     };
   }
 

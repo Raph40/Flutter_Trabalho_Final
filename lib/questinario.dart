@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class questionario extends StatelessWidget {
-  const questionario({super.key});
+class Questionario extends StatelessWidget {
+  const Questionario({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +20,129 @@ class questionarioPage extends StatefulWidget {
 }
 
 class _questionarioPageState extends State<questionarioPage> {
+  // Lista de questionários com título e data/hora
+  final List<Map<String, String>> questionarios = [
+    {'titulo': 'Questionário Dias de Treino', 'data': '2024-04-11 06:31'},
+    {'titulo': 'Questionário Saúde', 'data': '2024-05-02 14:45'},
+    {'titulo': 'Questionário Fitness', 'data': '2024-06-18 09:15'},
+    {'titulo': 'Questionário Dieta', 'data': '2024-07-23 12:00'},
+  ];
+
+  // Perguntas específicas para cada questionário
+  final Map<String, List<String>> perguntas = {
+    'Questionário Dias de Treino': [
+      'Quantos dias por semana você treina?',
+      'Qual tipo de treino você prefere?',
+      'Você utiliza algum suplemento?'
+    ],
+    'Questionário Saúde': [
+      'Você faz exames médicos regularmente?',
+      'Como está seu nível de estresse?',
+      'Você tem alguma condição de saúde crônica?'
+    ],
+    'Questionário Fitness': [
+      'Qual é seu objetivo principal com o fitness?',
+      'Qual é sua rotina de exercícios?',
+      'Você faz acompanhamento com um profissional?'
+    ],
+    'Questionário Dieta': [
+      'Qual é seu tipo de dieta atual?',
+      'Você consome frutas e vegetais regularmente?',
+      'Você tem alguma restrição alimentar?'
+    ],
+  };
+
+  // Lista para controlar o status de envio de cada questionário
+  final List<bool> questionariosEnviados = [false, false, false, false];
+
+  // Função para exibir o popup com perguntas específicas
+  void _mostrarPopup(BuildContext context, String titulo, int index) {
+    final listaPerguntas = perguntas[titulo] ?? []; // Obtem as perguntas para o título
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(16),
+            height: 500, // Aumenta o tamanho do popup (altura)
+            width: 350, // Aumenta a largura do popup
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  titulo,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20), // Espaçamento entre o título e as perguntas
+                ...listaPerguntas.map((pergunta) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 5.0), // Mais espaçamento entre perguntas
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          pergunta, // Pergunta
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(height: 8), // Espaçamento entre a pergunta e a caixa de texto
+                        TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Resposta',
+                            border: InputBorder.none, // Remover a borda para uma linha simples
+                          ),
+                        ),
+                        Divider(), // Adiciona uma linha abaixo da caixa de texto (opcional)
+                      ],
+                    ),
+                  );
+                }).toList(),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Fecha o popup
+                      },
+                      child: Text('Cancelar'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Marca o questionário como enviado
+                        setState(() {
+                          questionariosEnviados[index] = true;
+                        });
+
+                        // Fecha o popup
+                        Navigator.of(context).pop();
+
+                        // Exibe o SnackBar
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Questionário enviado com sucesso!')),
+                        );
+                      },
+                      child: Text('Enviar'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +164,7 @@ class _questionarioPageState extends State<questionarioPage> {
             elevation: 0,
             centerTitle: true,
             title: Text(
-              "Questionário",
+              "Questionários",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 18,
@@ -51,52 +174,68 @@ class _questionarioPageState extends State<questionarioPage> {
           ),
         ),
       ),
-      body: Container(
-        padding: EdgeInsets.all(16), // Espaçamento interno
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: Colors.grey, // Cor da linha
-              width: 1.0, // Espessura da linha para maior visibilidade
-            ),
-          ),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center, // Centraliza verticalmente os itens
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min, // Garante que a coluna use apenas o espaço necessário
+      body: ListView.builder(
+        itemCount: questionarios.length,
+        itemBuilder: (context, index) {
+          final questionario = questionarios[index];
+
+          // Verifica se o questionário foi enviado
+          bool questionarioEnviado = questionariosEnviados[index];
+
+          return GestureDetector(
+            onTap: questionarioEnviado
+                ? null // Desabilita o clique se o questionário foi enviado
+                : () => _mostrarPopup(context, questionario['titulo']!, index),
+            child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
+                ),
+              ),
+              child: Stack(
                 children: [
-                  Text(
-                    'Questionário Motivacional',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Texto do questionário
+                      Text(
+                        questionario['titulo']!,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        questionario['data']!,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 4), // Espaçamento entre os textos
-                  Text(
-                    '2024-04-11   06:31',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
+                  // A seta verde de envio, que aparece no canto direito quando enviado
+                  if (questionarioEnviado)
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: 24,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
-            SizedBox(width: 8), // Espaçamento entre o texto e o ícone
-            Icon(
-              Icons.car_rental, // Ícone
-              color: Colors.grey, // Cor do ícone
-              size: 24, // Tamanho do ícone
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 }
-

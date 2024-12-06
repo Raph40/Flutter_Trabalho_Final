@@ -22,7 +22,7 @@ class precarioPage extends StatelessWidget {
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
@@ -38,7 +38,7 @@ class precarioPage extends StatelessWidget {
             title: Text(
               "Preçário",
               style: TextStyle(
-                color: Colors.black,
+                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -85,10 +85,10 @@ class precarioPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: Text(
-                  "Para mais informações é favor perguntar na recepção.",
+                  "Para mais informações é favor perguntar na receção.",
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.black,
+                    color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                     fontStyle: FontStyle.italic,
                   ),
                   textAlign: TextAlign.center,
@@ -119,7 +119,7 @@ class PricingCard extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Card(
-      color: Colors.white,
+      color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
@@ -133,7 +133,7 @@ class PricingCard extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -142,7 +142,7 @@ class PricingCard extends StatelessWidget {
               Text(
                 price,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                   fontSize: 16,
                 ),
               ),
@@ -150,7 +150,7 @@ class PricingCard extends StatelessWidget {
               ...details.map((detail) => Text(
                 '• $detail',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                   fontSize: 14,
                 ),
               )),

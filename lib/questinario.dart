@@ -83,7 +83,7 @@ class _questionarioPageState extends State<questionarioPage> {
                 SizedBox(height: 20), // Espaçamento entre o título e as perguntas
                 ...listaPerguntas.map((pergunta) {
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 5.0), // Mais espaçamento entre perguntas
+                    padding: EdgeInsets.only(bottom: 5.0), // Mais espaçamento entre perguntas
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -150,7 +150,7 @@ class _questionarioPageState extends State<questionarioPage> {
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
@@ -166,7 +166,7 @@ class _questionarioPageState extends State<questionarioPage> {
             title: Text(
               "Questionários",
               style: TextStyle(
-                color: Colors.black,
+                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),

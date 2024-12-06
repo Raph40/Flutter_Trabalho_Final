@@ -30,7 +30,7 @@ class _avaliacaofisicaPageState extends State<avaliacaofisicaPage> {
           preferredSize: Size.fromHeight(kToolbarHeight),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.5),
@@ -46,7 +46,7 @@ class _avaliacaofisicaPageState extends State<avaliacaofisicaPage> {
               title: Text(
                 "Avaliação Física",
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -57,8 +57,8 @@ class _avaliacaofisicaPageState extends State<avaliacaofisicaPage> {
         body: Column(
           children: [
             TabBar(
-              labelColor: Colors.black,
-              indicatorColor: Colors.blue,
+              labelColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+              indicatorColor: Theme.of(context).primaryColor,
               tabs: [
                 Tab(text: 'Tabela'),
                 Tab(text: 'Gráfico'),
@@ -267,7 +267,7 @@ class LegendItem extends StatelessWidget {
           ),
         ),
         SizedBox(width: 4),
-        Text(label),
+        Text(label, style: TextStyle(fontSize: 10),),
       ],
     );
   }

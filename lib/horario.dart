@@ -4,12 +4,12 @@ class HorarioPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.grey[100],
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight), // Manter a altura original do AppBar
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
@@ -25,7 +25,7 @@ class HorarioPage extends StatelessWidget {
             title: Text(
               "Horário do Ginásio",
               style: TextStyle(
-                color: Colors.black,
+                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -45,7 +45,7 @@ class HorarioPage extends StatelessWidget {
                 ),
                 elevation: 8,
                 child: Padding(
-                  padding: const EdgeInsets.all(24.0),
+                  padding: EdgeInsets.all(24.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -55,7 +55,7 @@ class HorarioPage extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                           ),
                         ),
                       ),
@@ -126,7 +126,7 @@ class HorarioPage extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                           ),
                         ),
                       ),
@@ -188,7 +188,7 @@ class HorarioPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.black54,
+                    color: Theme.of(context).brightness == Brightness.dark ? Colors.grey[100] : Colors.grey[700],
                     fontStyle: FontStyle.italic,
                   ),
                 ),

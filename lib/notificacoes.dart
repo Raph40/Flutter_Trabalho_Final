@@ -143,7 +143,7 @@ class _NotificacoesPageState extends State<NotificacoesPage> {
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
@@ -159,7 +159,7 @@ class _NotificacoesPageState extends State<NotificacoesPage> {
             title: Text(
               "Notificações",
               style: TextStyle(
-                color: Colors.black,
+                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -167,11 +167,11 @@ class _NotificacoesPageState extends State<NotificacoesPage> {
             actions: [
               if (_isSelecting)
                 IconButton(
-                  icon: Icon(Icons.check, color: Colors.black),
+                  icon: Icon(Icons.check, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,),
                   onPressed: _confirmDelete, // Confirma a exclusão
                 ),
               IconButton(
-                icon: Icon(Icons.delete, color: Colors.black),
+                icon: Icon(Icons.delete, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,),
                 onPressed: () {
                   setState(() {
                     _isSelecting = !_isSelecting; // Ativa/Desativa o modo de seleção

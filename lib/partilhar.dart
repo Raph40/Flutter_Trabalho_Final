@@ -13,7 +13,7 @@ class PartilharPage extends StatelessWidget {
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
@@ -29,7 +29,7 @@ class PartilharPage extends StatelessWidget {
             title: Text(
               "Partilhar",
               style: TextStyle(
-                color: Colors.black,
+                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -40,7 +40,7 @@ class PartilharPage extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center, // Centraliza os botões
           children: [
@@ -57,7 +57,7 @@ class PartilharPage extends StatelessWidget {
             // Texto explicativo
             Text(
               'Escolha um modo de partilha e o seu amigo receberá um endereço de uma página da internet com todas as instruções para instalar a app e criar a sua conta.',
-              style: TextStyle(fontSize: 16, color: Colors.black54),
+              style: TextStyle(fontSize: 16, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20),

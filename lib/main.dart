@@ -15,21 +15,38 @@ import 'partilhar.dart';
 import 'agenda.dart';
 import 'login.dart';
 import 'horario.dart';
+import 'mudartema.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();  // Garante que o Flutter está totalmente inicializado
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,  // Inicializa o Firebase com as opções corretas
   );
-  runApp(MyGymApp());
+
+  // Agora inicializa a aplicação com o ThemeProvider
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),  // Inicializa o ThemeProvider
+      child: MyGymApp(),  // Passa a aplicação para que o tema seja acessível
+    ),
+  );
 }
 
 class MyGymApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: GymScreen(),
+    // Aplique o Consumer para acessar o ThemeProvider
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,  // Remover o banner de depuração
+          theme: ThemeData.light(),  // Tema claro
+          darkTheme: ThemeData.dark(),  // Tema escuro
+          themeMode: themeProvider.themeMode,  // Tema dinâmico baseado no ThemeProvider
+          home: GymScreen(),  // Mantém o GymScreen como a tela inicial
+        );
+      },
     );
   }
 }
@@ -96,7 +113,7 @@ class _GymScreenState extends State<GymScreen> {
           padding: const EdgeInsets.only(top: 50, right: 16, left: 16, bottom: 16),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
               borderRadius: BorderRadius.circular(24.0),
               boxShadow: [
                 BoxShadow(
@@ -122,7 +139,7 @@ class _GymScreenState extends State<GymScreen> {
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Já tem sessão iniciada!')),
+                            SnackBar(content: Text('Já tem sessão iniciada!',style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,),)),
                           );
                         }
                       },
@@ -138,7 +155,7 @@ class _GymScreenState extends State<GymScreen> {
                         Text(
                           _userName, // Exibe o nome do usuário
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                               fontSize: 16,
                               fontWeight: FontWeight.bold),
                         ),
@@ -151,7 +168,7 @@ class _GymScreenState extends State<GymScreen> {
                   ],
                 ),
                 IconButton(
-                  icon: Icon(Icons.settings_outlined, color: Colors.black),
+                  icon: Icon(Icons.settings_outlined, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -191,7 +208,9 @@ class _GymScreenState extends State<GymScreen> {
     return IconButton(
       icon: Icon(
         icon,
-        color: _selectedIndex == index ? Colors.black : Colors.grey[300],
+        color: _selectedIndex == index
+            ? Theme.of(context).iconTheme.color // Cor do ícone quando selecionado
+            : Theme.of(context).iconTheme.color?.withOpacity(0.3), // Cor do ícone não selecionado
       ),
       onPressed: () {
         final User? user = FirebaseAuth.instance.currentUser;
@@ -309,7 +328,9 @@ class _GymScreenState extends State<GymScreen> {
     return Scaffold(
       body: _getCurrentScreen(),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? Colors.black
+            : Colors.white,
         elevation: 10,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

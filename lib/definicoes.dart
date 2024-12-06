@@ -8,6 +8,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'mudartema.dart';
+import 'package:provider/provider.dart';
 
 class definicoes extends StatelessWidget {
   const definicoes({super.key});
@@ -90,12 +92,13 @@ class _definicoesPageState extends State<definicoesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
@@ -111,7 +114,7 @@ class _definicoesPageState extends State<definicoesPage> {
             title: Text(
               "Definições",
               style: TextStyle(
-                color: Colors.black,
+                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -144,11 +147,9 @@ class _definicoesPageState extends State<definicoesPage> {
                     activeTrackColor: Colors.red[700],
                     title: Text('Modo Light e Dark'),
                     subtitle: Text('Tema Light e Dark para a aplicação.'),
-                    value: login,
+                    value: themeProvider.themeMode == ThemeMode.dark,
                     onChanged: (bool value) {
-                      setState(() {
-                        login = value;
-                      });
+                      themeProvider.toggleTheme(value);
                     },
                   ),
                   ListTile(

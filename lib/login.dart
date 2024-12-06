@@ -62,19 +62,34 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
-        title: Text(
-          'Login',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
+      backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight), // Manter a altura original do AppBar
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                blurRadius: 6,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            centerTitle: true,
+            title: Text(
+              "Login",
+              style: TextStyle(
+                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
-        centerTitle: true,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -85,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             elevation: 8,
             child: Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: EdgeInsets.all(24.0),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -96,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                        color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                       ),
                     ),
                     SizedBox(height: 16),
@@ -104,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                       'Login',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.grey[600],
+                        color: Theme.of(context).brightness == Brightness.dark ? Colors.grey[100] : Colors.grey[600],
                       ),
                     ),
                     SizedBox(height: 32),
@@ -174,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text(
                         'Não tem uma conta? Registe-se',
                         style: TextStyle(
-                          color: Colors.red[900],
+                          color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.red[900],
                           fontSize: 14,
                         ),
                       ),

@@ -37,10 +37,10 @@ class _AgendaPageState extends State<AgendaPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Agenda',
           style: TextStyle(
-            color: Colors.black,
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -48,7 +48,7 @@ class _AgendaPageState extends State<AgendaPage> {
         automaticallyImplyLeading: false, // Remove a seta de retorno
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -71,8 +71,8 @@ class _AgendaPageState extends State<AgendaPage> {
               headerStyle: HeaderStyle(
                 formatButtonVisible: false,
                 titleCentered: true,
-                leftChevronIcon: Icon(Icons.chevron_left, color: Colors.black),
-                rightChevronIcon: Icon(Icons.chevron_right, color: Colors.black),
+                leftChevronIcon: Icon(Icons.chevron_left, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black),
+                rightChevronIcon: Icon(Icons.chevron_right, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black),
               ),
               calendarStyle: CalendarStyle(
                 todayDecoration: BoxDecoration(
@@ -85,7 +85,7 @@ class _AgendaPageState extends State<AgendaPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Exibe os eventos do dia selecionado
             Expanded(
@@ -108,7 +108,7 @@ class _AgendaPageState extends State<AgendaPage> {
                     leading: Icon(Icons.event, color: Colors.red),
                     title: Text(
                       event,
-                      style: TextStyle(fontSize: 16, color: Colors.black),
+                      style: TextStyle(fontSize: 16, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,),
                     ),
                   );
                 },

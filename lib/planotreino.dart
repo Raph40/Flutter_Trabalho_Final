@@ -34,7 +34,7 @@ class _planotreinoPageState extends State<planotreinoPage> {
           title: Text(
             "Plano de Treino",
             style: TextStyle(
-              color: Colors.black,
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -215,7 +215,7 @@ class _planotreinoPageState extends State<planotreinoPage> {
     return Container(
       margin: EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: isActive ? Colors.grey[200] : Colors.grey[300],
+        color: isActive ? (Theme.of(context).brightness == Brightness.dark ? Colors.grey[800] : Colors.grey[200]) : (Theme.of(context).brightness == Brightness.dark ? Colors.grey[700] : Colors.grey[300]),
         borderRadius: BorderRadius.circular(8),
       ),
       padding: EdgeInsets.all(16),
@@ -223,7 +223,7 @@ class _planotreinoPageState extends State<planotreinoPage> {
         children: [
           Icon(
             Icons.fitness_center,
-            color: isActive ? Colors.red : Colors.grey,
+            color: isActive ? Colors.red : (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.grey),
             size: 30,
           ),
           SizedBox(width: 16),
@@ -232,7 +232,7 @@ class _planotreinoPageState extends State<planotreinoPage> {
               title,
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.black87,
+                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
               ),
             ),
           ),

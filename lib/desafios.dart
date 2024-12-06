@@ -29,7 +29,7 @@ class _desafiosPageState extends State<desafiosPage> {
           preferredSize: Size.fromHeight(kToolbarHeight),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.5),
@@ -45,7 +45,7 @@ class _desafiosPageState extends State<desafiosPage> {
               title: Text(
                 "Desafios",
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -56,11 +56,11 @@ class _desafiosPageState extends State<desafiosPage> {
         body: Column(
           children: [
             Container(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
               child: TabBar(
-                labelColor: Colors.black,
+                labelColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                 unselectedLabelColor: Colors.grey,
-                indicatorColor: Colors.black,
+                indicatorColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                 tabs: [
                   Tab(text: 'Masculino'),
                   Tab(text: 'Feminino'),
@@ -129,9 +129,9 @@ class _desafiosPageState extends State<desafiosPage> {
         borderRadius: BorderRadius.circular(12),
       ),
       elevation: 4,
-      margin: const EdgeInsets.symmetric(vertical: 8),
+      margin: EdgeInsets.symmetric(vertical: 8),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -163,7 +163,7 @@ class _desafiosPageState extends State<desafiosPage> {
                     description,
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.grey[700],
+                      color: Theme.of(context).brightness == Brightness.dark ? Colors.grey[100] : Colors.grey[700],
                     ),
                   ),
                 ],

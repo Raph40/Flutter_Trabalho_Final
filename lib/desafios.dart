@@ -172,9 +172,13 @@ class _desafiosPageState extends State<desafiosPage> {
             // Ícone no lado direito
             Icon(
               winnerName.isNotEmpty ? Icons.emoji_events : Icons.fitness_center,
-              color: winnerName.isNotEmpty ? Colors.amber[700] : Colors.black,
+              color: winnerName.isNotEmpty
+                  ? Colors.amber[700]
+                  : Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
               size: 28,
-            ),
+            )
           ],
         ),
       ),

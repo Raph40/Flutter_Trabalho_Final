@@ -31,24 +31,24 @@ class _questionarioPageState extends State<questionarioPage> {
   // Perguntas específicas para cada questionário
   final Map<String, List<String>> perguntas = {
     'Questionário Dias de Treino': [
-      'Quantos dias por semana você treina?',
-      'Qual tipo de treino você prefere?',
-      'Você utiliza algum suplemento?'
+      'Quantos dias por semana treina?',
+      'Qual tipo de treino que prefere?',
+      'Você usa algum suplemento?'
     ],
     'Questionário Saúde': [
-      'Você faz exames médicos regularmente?',
-      'Como está seu nível de estresse?',
-      'Você tem alguma condição de saúde crônica?'
+      'Faz exames médicos regularmente?',
+      'Como está seu nível de stresse?',
+      'Tem alguma condição de saúde crónica?'
     ],
     'Questionário Fitness': [
-      'Qual é seu objetivo principal com o fitness?',
-      'Qual é sua rotina de exercícios?',
-      'Você faz acompanhamento com um profissional?'
+      'Qual é o seu objetivo principal com o fitness?',
+      'Qual é a sua rotina de exercícios?',
+      'Faz acompanhamento com algum profissional?'
     ],
     'Questionário Dieta': [
-      'Qual é seu tipo de dieta atual?',
-      'Você consome frutas e vegetais regularmente?',
-      'Você tem alguma restrição alimentar?'
+      'Qual é a sua dieta atual?',
+      'Consome frutas e vegetais regularmente?',
+      'Tem alguma restrição alimentar?'
     ],
   };
 

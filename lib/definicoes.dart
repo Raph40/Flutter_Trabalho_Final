@@ -142,7 +142,7 @@ class _definicoesPageState extends State<definicoesPage> {
                     subtitle: Text('Ligar e desligar as notificações.'),
                     value: notificacoes,
                     onChanged: (bool value) {
-                     _toggleNotifications(value); // Controla as notificações
+                      _toggleNotifications(value); // Controla as notificações
                     },
                   ),
                   SwitchListTile(

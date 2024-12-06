@@ -83,6 +83,12 @@ class _AgendaPageState extends State<AgendaPage> {
                   color: Colors.red[500],
                   shape: BoxShape.circle,
                 ),
+                markerDecoration: BoxDecoration(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white // Cor no modo escuro
+                      : Colors.red,   // Cor no modo claro
+                  shape: BoxShape.circle, // Formato dos marcadores
+                ),
               ),
             ),
             SizedBox(height: 20),
@@ -93,7 +99,7 @@ class _AgendaPageState extends State<AgendaPage> {
                   ? Center(
                 child: Text(
                   'Sem eventos para o dia selecionado',
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                  style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
               )
                   : ListView.separated(

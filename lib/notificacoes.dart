@@ -164,27 +164,14 @@ class _NotificacoesPageState extends State<NotificacoesPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            actions: [
-              if (_isSelecting)
-                IconButton(
-                  icon: Icon(Icons.check, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,),
-                  onPressed: _confirmDelete, // Confirma a exclusão
-                ),
-              IconButton(
-                icon: Icon(Icons.delete, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,),
-                onPressed: () {
-                  setState(() {
-                    _isSelecting = !_isSelecting; // Ativa/Desativa o modo de seleção
-                    _selectedItems.clear(); // Limpar a seleção atual
-                  });
-                },
-              ),
-            ],
+            automaticallyImplyLeading: true, // Ativa a seta de retorno
+            iconTheme: IconThemeData(color: Colors.black),
           ),
         ),
       ),
       body: Column(
         children: [
+          // Barra de pesquisa e botão de eliminação
           Container(
             margin: EdgeInsets.only(top: 5, bottom: 5),
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -198,6 +185,7 @@ class _NotificacoesPageState extends State<NotificacoesPage> {
             ),
             child: Row(
               children: [
+                // Botão de pesquisa
                 GestureDetector(
                   onTap: () {
                     setState(() {
@@ -245,6 +233,21 @@ class _NotificacoesPageState extends State<NotificacoesPage> {
                   ),
                 ),
                 Spacer(),
+                // Botão de confirmação de eliminação
+                if (_isSelecting)
+                  IconButton(
+                    icon: Icon(Icons.check, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black),
+                    onPressed: _confirmDelete,
+                  ),
+                IconButton(
+                  icon: Icon(Icons.delete, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black),
+                  onPressed: () {
+                    setState(() {
+                      _isSelecting = !_isSelecting;
+                      _selectedItems.clear();
+                    });
+                  },
+                ),
               ],
             ),
           ),

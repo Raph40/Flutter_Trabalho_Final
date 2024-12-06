@@ -135,7 +135,9 @@ class _definicoesPageState extends State<definicoesPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SwitchListTile(
-                    activeTrackColor: Colors.red[700],
+                    activeTrackColor: Colors.red[700], // Faixa ativa em vermelho
+                    activeColor: Colors.white, // Cor da bolinha ativa
+                    inactiveThumbColor: Colors.white,
                     title: Text('Notificações'),
                     subtitle: Text('Ligar e desligar as notificações.'),
                     value: notificacoes,
@@ -144,7 +146,9 @@ class _definicoesPageState extends State<definicoesPage> {
                     },
                   ),
                   SwitchListTile(
-                    activeTrackColor: Colors.red[700],
+                    activeTrackColor: Colors.red[700], // Faixa ativa em vermelho
+                    activeColor: Colors.white, // Cor da bolinha ativa
+                    inactiveThumbColor: Colors.white,
                     title: Text('Modo Light e Dark'),
                     subtitle: Text('Tema Light e Dark para a aplicação.'),
                     value: themeProvider.themeMode == ThemeMode.dark,

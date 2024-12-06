@@ -115,7 +115,7 @@ class _planotreinoPageState extends State<planotreinoPage> {
       context: context,
       builder: (context) {
         return Container(
-          color: Colors.white,
+          color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

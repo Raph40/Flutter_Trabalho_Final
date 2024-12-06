@@ -139,7 +139,7 @@ class _GymScreenState extends State<GymScreen> {
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Já tem sessão iniciada!',style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,),)),
+                            SnackBar(content: Text('Já tem sessão iniciada!',style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,),)),
                           );
                         }
                       },

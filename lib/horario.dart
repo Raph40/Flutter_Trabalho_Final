@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HorarioPage extends StatelessWidget {
+  final double latitude = 39.45975350835327;
+  final double longitude = -8.20065003409381;
+
+  void _abrirMapa() async {
+    final googleMapsUrl =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+
+    if (await canLaunch(googleMapsUrl)) {
+      await launch(googleMapsUrl);
+    } else {
+      throw 'Não foi possível abrir o mapa.';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -180,6 +195,27 @@ class HorarioPage extends StatelessWidget {
               ),
               SizedBox(height: 30),
 
+              // Botão para abrir o Google Maps
+              SizedBox(
+                width: double.infinity, // O botão ocupa toda a largura disponível
+                child: ElevatedButton.icon(
+                  onPressed: _abrirMapa,
+                  icon: Icon(Icons.location_on, color: Colors.red[900]),
+                  label: Text(
+                    'Localização do ginásio',
+                    style: TextStyle(color: Colors.red[900]),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                    backgroundColor: Colors.white, // Cor de fundo branca para contraste
+                    shadowColor: Colors.grey.withOpacity(0.5), // Cor da sombra semelhante aos cartões
+                    elevation: 8, // Altura da sombra igual aos cartões
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16), // Borda arredondada igual aos cartões
+                    ),
+                  ),
+                ),
+              ),
               // Texto adicional no fundo da página
               Padding(
                 padding: const EdgeInsets.all(16.0),
